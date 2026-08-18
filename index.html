@@ -230,7 +230,7 @@ body{padding:8px;overflow-x:hidden}
     <div class="modal-section">
       <label class="modal-label">🔑 مفتاح API</label>
       <input type="password" id="apiKeyInput" class="inp" dir="ltr" placeholder="sk-...">
-      <div style="font-size:9px;color:#596273;margin-top:5px">🔌 الاتصال يستخدم نفس بوابة API الموجودة في الكود الأصلي.</div>
+      <div style="font-size:9px;color:#596273;margin-top:5px">🔌 نفس بوابة API وصيغة المفتاح الموجودة في الكود الأصلي — لم يتم تغيير نظام المصادقة.</div>
       <div class="row" style="margin-top:6px">
         <button onclick="saveSettings()" class="btn btn-main">💾 حفظ</button>
         <button onclick="testAPI()" class="btn btn-dark">🔌 اختبار</button>
@@ -276,7 +276,17 @@ let API_URL=DEFAULT_API_URL;
 // IMPORTANT: preserve the original app's API contract.
 // The original code used localStorage key "api_key" and Bearer auth.
 let apiKey='';
-try{apiKey=localStorage.getItem('api_key')||''}catch(e){}
+try{
+  apiKey=localStorage.getItem('api_key')||'';
+  // Compatibility migration only; the canonical key remains api_key.
+  if(!apiKey){
+    const legacyKey=localStorage.getItem('debate_api_key')||'';
+    if(legacyKey){
+      apiKey=legacyKey;
+      localStorage.setItem('api_key',legacyKey);
+    }
+  }
+}catch(e){}
 
 /* =========================
    DATA
@@ -549,15 +559,49 @@ function callAPI(bot,messages){
  const timeout=setTimeout(()=>controller.abort(),45000);
  const temperature=parseFloat(document.getElementById('temperatureSelect')?.value||'.8');
  const max_tokens=parseInt(document.getElementById('tokenSelect')?.value||'300');
- return fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify({model:bot.model||'claude-opus-4-6',messages,temperature,max_tokens,top_p:.9}),signal:controller.signal})
- .then(async r=>{clearTimeout(timeout);let d={};try{d=await r.json()}catch(e){}if(!r.ok)throw new Error(d?.error?.message||d?.detail||d?.message||`HTTP ${r.status}`);return d})
- .then(d=>{
-  let c=d?.choices?.[0]?.message?.content||d?.choices?.[0]?.text;
-  if(!c&&Array.isArray(d?.content))c=d.content.map(x=>x.text||'').join('');
-  if(!c)throw new Error('استجابة API غير متوقعة.');
-  return String(c).trim();
+
+ // IMPORTANT:
+ // Keep the original OpenAI-compatible request contract unchanged:
+ // POST /v1/chat/completions + Bearer token + model/messages/temperature/max_tokens/top_p.
+ return fetch(API_URL,{
+   method:'POST',
+   headers:{
+     'Content-Type':'application/json',
+     'Authorization':'Bearer '+apiKey
+   },
+   body:JSON.stringify({
+     model:bot.model||'claude-opus-4-6',
+     messages:messages,
+     temperature:temperature,
+     max_tokens:max_tokens,
+     top_p:.9
+   }),
+   signal:controller.signal
  })
- .catch(e=>{clearTimeout(timeout);if(e.name==='AbortError')throw new Error('تم إلغاء الطلب أو انتهت المهلة.');if(String(e.message).toLowerCase().includes('failed to fetch'))throw new Error('فشل الاتصال بالخادم. تحقق من الرابط وCORS.');throw e});
+ .then(async r=>{
+   clearTimeout(timeout);
+   let d={};
+   try{d=await r.json()}catch(e){}
+   if(!r.ok){
+     throw new Error(d?.error?.message||d?.detail||d?.message||('HTTP '+r.status));
+   }
+   return d;
+ })
+ .then(d=>{
+   let c=d?.choices?.[0]?.message?.content||d?.choices?.[0]?.text;
+   if(!c&&Array.isArray(d?.content))c=d.content.map(x=>x.text||'').join('');
+   if(!c)throw new Error('استجابة API غير متوقعة.');
+   return String(c).trim();
+ })
+ .catch(e=>{
+   clearTimeout(timeout);
+   if(e.name==='AbortError')throw new Error('تم إلغاء الطلب أو انتهت مهلة الخادم (45 ثانية).');
+   const msg=String(e.message||'').toLowerCase();
+   if(msg.includes('failed to fetch')||msg.includes('networkerror')||msg.includes('load failed')){
+     throw new Error('تعذر الوصول إلى API من الاستضافة. إذا كان الكود يعمل محلياً ويتوقف على موقعك، فغالباً يحتاج خادم API إلى السماح بـ CORS لمصدر موقعك.');
+   }
+   throw e;
+ });
 }
 
 /* =========================
