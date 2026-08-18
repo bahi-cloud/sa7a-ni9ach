@@ -230,7 +230,7 @@ body{padding:8px;overflow-x:hidden}
     <div class="modal-section">
       <label class="modal-label">🔑 مفتاح API</label>
       <input type="password" id="apiKeyInput" class="inp" dir="ltr" placeholder="sk-...">
-      <div style="font-size:9px;color:#596273;margin-top:5px">🔌 نفس بوابة API وصيغة المفتاح الموجودة في الكود الأصلي — لم يتم تغيير نظام المصادقة.</div>
+      <div style="font-size:9px;color:#596273;margin-top:5px">🔌 مفتاح API بصيغة الكود الأصلي.</div>
       <div class="row" style="margin-top:6px">
         <button onclick="saveSettings()" class="btn btn-main">💾 حفظ</button>
         <button onclick="testAPI()" class="btn btn-dark">🔌 اختبار</button>
@@ -271,22 +271,9 @@ body{padding:8px;overflow-x:hidden}
 /* =========================
    CONFIG
 ========================= */
-const DEFAULT_API_URL='https://ayb-bh92-wep2app.hf.space/v1/chat/completions';
-let API_URL=DEFAULT_API_URL;
-// IMPORTANT: preserve the original app's API contract.
-// The original code used localStorage key "api_key" and Bearer auth.
-let apiKey='';
-try{
-  apiKey=localStorage.getItem('api_key')||'';
-  // Compatibility migration only; the canonical key remains api_key.
-  if(!apiKey){
-    const legacyKey=localStorage.getItem('debate_api_key')||'';
-    if(legacyKey){
-      apiKey=legacyKey;
-      localStorage.setItem('api_key',legacyKey);
-    }
-  }
-}catch(e){}
+var API_URL='https://ayb-bh92-wep2app.hf.space/v1/chat/completions';
+var apiKey='';
+try { apiKey=localStorage.getItem('api_key') || ''; } catch(e){}
 
 /* =========================
    DATA
@@ -552,56 +539,51 @@ function buildMessages(bot,interrupt=''){
  msgs.push({role:'user',content:interrupt?`تدخل المستخدم: "${interrupt}"\nأجب مباشرة ثم اربطه بالنقاش.`:'قدم مساهمة جديدة في دورك ولا تكرر آخر رأي.'});
  return msgs;
 }
-function callAPI(bot,messages){
- if(!apiKey)return Promise.reject(new Error('لم يتم إدخال مفتاح API.'));
- if(!navigator.onLine)return Promise.reject(new Error('لا يوجد اتصال بالإنترنت.'));
- abortController=new AbortController();const controller=abortController;
- const timeout=setTimeout(()=>controller.abort(),45000);
- const temperature=parseFloat(document.getElementById('temperatureSelect')?.value||'.8');
- const max_tokens=parseInt(document.getElementById('tokenSelect')?.value||'300');
+function callAPI(bot,msgs){
+    abortController = new AbortController();
+    var sysPrompt = systemPrompt(bot);
 
- // IMPORTANT:
- // Keep the original OpenAI-compatible request contract unchanged:
- // POST /v1/chat/completions + Bearer token + model/messages/temperature/max_tokens/top_p.
- return fetch(API_URL,{
-   method:'POST',
-   headers:{
-     'Content-Type':'application/json',
-     'Authorization':'Bearer '+apiKey
-   },
-   body:JSON.stringify({
-     model:bot.model||'claude-opus-4-6',
-     messages:messages,
-     temperature:temperature,
-     max_tokens:max_tokens,
-     top_p:.9
-   }),
-   signal:controller.signal
- })
- .then(async r=>{
-   clearTimeout(timeout);
-   let d={};
-   try{d=await r.json()}catch(e){}
-   if(!r.ok){
-     throw new Error(d?.error?.message||d?.detail||d?.message||('HTTP '+r.status));
-   }
-   return d;
- })
- .then(d=>{
-   let c=d?.choices?.[0]?.message?.content||d?.choices?.[0]?.text;
-   if(!c&&Array.isArray(d?.content))c=d.content.map(x=>x.text||'').join('');
-   if(!c)throw new Error('استجابة API غير متوقعة.');
-   return String(c).trim();
- })
- .catch(e=>{
-   clearTimeout(timeout);
-   if(e.name==='AbortError')throw new Error('تم إلغاء الطلب أو انتهت مهلة الخادم (45 ثانية).');
-   const msg=String(e.message||'').toLowerCase();
-   if(msg.includes('failed to fetch')||msg.includes('networkerror')||msg.includes('load failed')){
-     throw new Error('تعذر الوصول إلى API من الاستضافة. إذا كان الكود يعمل محلياً ويتوقف على موقعك، فغالباً يحتاج خادم API إلى السماح بـ CORS لمصدر موقعك.');
-   }
-   throw e;
- });
+    var messages = [
+        {role:'system', content:sysPrompt}
+    ];
+
+    for(var i=0;i<msgs.length;i++){
+        messages.push(msgs[i]);
+    }
+
+    var body = {
+        model: bot.model,
+        messages: messages,
+        temperature: 0.8,
+        max_tokens: 300,
+        top_p: 0.9
+    };
+
+    return fetch(API_URL, {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'Authorization':'Bearer '+apiKey
+        },
+        body:JSON.stringify(body),
+        signal:abortController.signal
+    }).then(function(res){
+        if(!res.ok){
+            return res.json().catch(function(){return{}}).then(function(d){
+                var em=d.error&&d.error.message?d.error.message:(d.detail||'HTTP '+res.status);
+                throw new Error(em);
+            });
+        }
+        return res.json();
+    }).then(function(data){
+        if(data.choices && data.choices[0] && data.choices[0].message){
+            return data.choices[0].message.content.trim();
+        }
+        throw new Error('استجابة غير متوقعة من API');
+    }).catch(function(err){
+        if(err.name==='AbortError')return null;
+        throw err;
+    });
 }
 
 /* =========================
@@ -782,25 +764,31 @@ function openSettings(){
  document.getElementById('apiKeyInput').value=apiKey;
 }
 function closeSettings(){document.getElementById('settingsModal').classList.remove('open')}
-function showKeyStatus(t,c){const e=document.getElementById('keyStatus');e.textContent=t;e.style.color=c}
+function showKeyStatus(t,c){
+ var e=document.getElementById('keyStatus');
+ e.textContent=t;e.style.color=c;
+}
 function saveSettings(){
- const k=document.getElementById('apiKeyInput').value.trim();
+ var k=document.getElementById('apiKeyInput').value.trim();
  if(!k){showKeyStatus('❌ أدخل المفتاح','#ef4444');return}
  apiKey=k;
  try{localStorage.setItem('api_key',k)}catch(e){}
- showKeyStatus('✅ تم الحفظ بنفس نظام الكود الأصلي.','#22c55e');
+ showKeyStatus('✅ تم الحفظ!','#22c55e');
 }
 async function testAPI(){
- const oldK=apiKey;
- apiKey=document.getElementById('apiKeyInput').value.trim();
- if(!apiKey){showKeyStatus('❌ أدخل المفتاح أولاً.','#ef4444');return}
+ var oldKey=apiKey;
+ var k=document.getElementById('apiKeyInput').value.trim();
+ if(!k){showKeyStatus('❌ أدخل المفتاح أولاً','#ef4444');return}
+ apiKey=k;
  showKeyStatus('⏳ جار الاختبار...','#fbbf24');
  try{
-  await callAPI(BOTS[0],[{role:'user',content:'اختبار اتصال. أجب بكلمة: متصل'}]);
-  showKeyStatus('✅ الاتصال ناجح.','#22c55e');
+  var testBot=findBot('anchor')||BOTS[0];
+  var res=await callAPI(testBot,[{role:'user',content:'اختبار اتصال. أجب بكلمة: متصل'}]);
+  if(res)showKeyStatus('✅ الاتصال ناجح.','#22c55e');
+  else showKeyStatus('❌ لم تصل استجابة.','#ef4444');
  }catch(e){
-  apiKey=oldK;
-  showKeyStatus('❌ '+e.message,'#ef4444');
+  apiKey=oldKey;
+  showKeyStatus('❌ '+(e.message||'فشل الاتصال'),'#ef4444');
  }
 }
 function clearStoredSettings(){
@@ -809,7 +797,6 @@ function clearStoredSettings(){
  document.getElementById('apiKeyInput').value='';
  showKeyStatus('🗑 تم حذف المفتاح.','#fb7185');
 }
-
 /* =========================
    EXPORT
 ========================= */
