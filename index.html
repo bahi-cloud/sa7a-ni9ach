@@ -2,831 +2,435 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>⚡ ساحة النقاش الذكي PRO</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f0c29">
+<title>ساحة النقاش الذكي — Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Cairo,sans-serif}
-:root{
- --bg1:#0f0c29;--bg2:#302b63;--bg3:#24243e;--panel:rgba(255,255,255,.055);
- --line:rgba(255,255,255,.10);--muted:#8b93a5;--text:#f5f7fb;
-}
-html,body{min-height:100%;background:linear-gradient(135deg,var(--bg1),var(--bg2) 50%,var(--bg3));color:var(--text)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+:root{--bg1:#0f0c29;--bg2:#302b63;--bg3:#24243e;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.1);--muted:#8b93a7;--accent:#6366f1}
+html,body{min-height:100%;background:linear-gradient(135deg,var(--bg1),var(--bg2) 50%,var(--bg3));color:#fff}
 body{padding:8px;overflow-x:hidden}
-.app{width:min(100%,900px);margin:auto;display:flex;flex-direction:column;gap:9px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);padding:10px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.logo{font-size:19px;font-weight:900;white-space:nowrap;background:linear-gradient(90deg,#fbbf24,#22d3ee,#a78bfa,#fb7185,#34d399,#fbbf24);background-size:400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shine 6s linear infinite}
-@keyframes shine{to{background-position:400% center}}
-.header-actions{display:flex;gap:5px;align-items:center}
-.btn{border:0;outline:0;border-radius:9px;color:#fff;font-size:11px;font-weight:700;padding:7px 11px;display:inline-flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:.15s}
-.btn:active{transform:scale(.96)}.btn:disabled{opacity:.35;cursor:not-allowed}
-.btn-main{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
-.btn-dark{background:rgba(255,255,255,.065);border:1px solid rgba(255,255,255,.08)}
-.btn-gold{background:linear-gradient(135deg,#92400e,#d97706)}
-.btn-sm{font-size:10px;padding:6px 9px}
-.inp,.sel{width:100%;background:rgba(0,0,0,.34);color:#fff;border:1px solid rgba(255,255,255,.10);border-radius:9px;padding:8px 11px;outline:0;font-size:12px}
-.inp:focus,.sel:focus{border-color:rgba(99,102,241,.65);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
-.sel option{background:#1d193a;color:#fff}
-.row{display:flex;align-items:center;gap:6px}.grow{flex:1;min-width:0}.nowrap{white-space:nowrap}
-.section-title{font-size:10px;font-weight:800;color:#969dab;margin-bottom:5px}
-.scroll-row{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:3px 1px 5px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;touch-action:pan-x}
-.scroll-row::-webkit-scrollbar{height:3px}.scroll-row::-webkit-scrollbar-thumb{background:rgba(255,255,255,.10);border-radius:5px}
-.chip{flex:0 0 auto;scroll-snap-align:start;display:flex;align-items:center;gap:5px;padding:7px 9px;border-radius:11px;background:rgba(0,0,0,.28);border:2px solid transparent;color:#ddd;cursor:pointer;user-select:none;transition:.18s;white-space:nowrap}
-.chip.off{opacity:.30;filter:grayscale(.45)}.chip .e{font-size:18px}.chip .n{font-size:10px;font-weight:800}
-.check{width:14px;height:14px;border-radius:4px;border:1px solid #555;display:flex;align-items:center;justify-content:center;font-size:9px}
-.chip.on .check{background:rgba(255,255,255,.14)}
-.dim-chip{padding:7px 10px}.dim-chip .e{font-size:15px}.dim-chip .n{font-size:10px}
-.world-chip{padding:6px 9px}
-.top-grid{display:grid;grid-template-columns:1fr auto auto;gap:6px}
-.mode-row{display:flex;gap:6px;margin-top:7px;align-items:center}
-.mode-row .sel{flex:1;min-width:0}.small-sel{width:auto;min-width:75px}
-.badge{padding:5px 9px;border:1px solid;border-radius:20px;font-size:9px;font-weight:800;white-space:nowrap}
-.chat-panel{padding:7px}
-.chat-box{height:46vh;min-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;padding:3px;scroll-behavior:smooth}
-.chat-box::-webkit-scrollbar{width:4px}.chat-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.11);border-radius:9px}
-.welcome{text-align:center;padding:45px 10px;color:#666}.welcome .icon{font-size:44px;margin-bottom:8px}.welcome .title{font-size:16px;font-weight:800;color:#ccc}.welcome .sub{font-size:10px;line-height:1.8;max-width:350px;margin:auto}
-.msg{border-radius:12px;padding:9px 11px;border-right:4px solid;animation:in .25s ease-out}
-.msg-head{display:flex;align-items:center;gap:5px;margin-bottom:4px}.avatar{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid;flex-shrink:0}
-.msg-name{font-size:11px;font-weight:800}.msg-time,.msg-round{font-size:9px;color:#596273}.msg-tools{margin-right:auto;display:flex;gap:2px}.msg-tools button{border:0;background:0;color:#687183;font-size:11px;cursor:pointer}
-.msg-text{font-size:12px;line-height:1.8;color:#e5e7eb;white-space:pre-wrap}
-.msg-system{font-size:10px;color:#fbbf24;text-align:center;padding:6px;border:1px dashed rgba(251,191,36,.25);border-radius:8px;background:rgba(251,191,36,.045)}
-.msg-summary{border:2px solid rgba(251,191,36,.35)!important;background:rgba(251,191,36,.055)!important;position:relative}
-.msg-summary:before{content:"📋 ملخص";position:absolute;right:12px;top:-10px;padding:1px 8px;border:1px solid rgba(251,191,36,.35);border-radius:14px;background:#302b63;color:#fbbf24;font-size:9px;font-weight:800}
-@keyframes in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
-.typing{display:none;padding:4px 7px}.typing.show{display:block}.typing-inner{display:flex;align-items:center;gap:5px;width:max-content;background:rgba(0,0,0,.3);padding:6px 10px;border-radius:9px}.typing-name{font-size:10px;font-weight:800}.typing-label{font-size:9px;color:#666}
-.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#888;animation:bounce 1.3s infinite}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:none}30%{transform:translateY(-4px)}}
-.status{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;padding:7px 9px}.status-left{display:flex;align-items:center;gap:6px}.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.pulse{animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,.4)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.status-text{font-size:10px;color:#9ca3af}
-.interrupt-row{display:flex;gap:6px}.interrupt-row .inp{flex:1}
-.compact-stats{display:flex;gap:5px;overflow-x:auto;padding:2px 0}.stat{flex:0 0 auto;min-width:65px;padding:6px 8px;background:rgba(0,0,0,.22);border-radius:8px;text-align:center;border:1px solid rgba(255,255,255,.04)}.stat b{display:block;font-size:14px}.stat span{font-size:8px;color:#687183}
-.rating-row{display:flex;gap:7px;overflow-x:auto}.rating{flex:1;min-width:100px}.rating-head{display:flex;justify-content:space-between;font-size:8px;color:#8993a4;margin-bottom:3px}.track{height:4px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}.fill{height:100%;width:0;border-radius:4px;transition:.4s}
-.rate-row{display:flex;gap:6px;overflow-x:auto}.rate{min-width:135px;flex:1;background:rgba(0,0,0,.18);border-radius:8px;padding:6px}.rate-label{display:flex;justify-content:space-between;font-size:8px;margin-bottom:3px}
-.progress-line{height:4px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-top:5px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#6366f1,#22d3ee,#34d399);transition:.3s}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:12px}.modal-bg.open{display:flex}
-.modal{width:min(94%,470px);max-height:85vh;overflow:auto;background:rgba(15,12,41,.97);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:15px}.modal-title{font-size:15px;font-weight:800}.modal-section{margin-top:12px}.modal-label{font-size:10px;font-weight:700;color:#aaa;margin-bottom:4px;display:block}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.hidden{display:none!important}
-.footer{text-align:center;padding:2px}.footer span{font-size:9px;color:#424958}
-@media(max-width:600px){
- body{padding:4px}.app{gap:7px}.panel{padding:8px;border-radius:12px}.logo{font-size:17px}
- .top-grid{grid-template-columns:1fr auto}.top-grid .topic{grid-column:1/-1}
- .chat-box{height:49vh;min-height:330px}.mode-row{flex-wrap:wrap}.mode-row .sel{flex-basis:100%}
- .status-actions{width:100%;justify-content:flex-start}.grid2{grid-template-columns:1fr}
-}
+button,input,select{font:inherit}
+button{touch-action:manipulation}
+.app{width:min(900px,100%);margin:auto;display:flex;flex-direction:column;gap:8px}
+.panel{background:rgba(255,255,255,.055);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo{font-size:19px;font-weight:900;background:linear-gradient(90deg,#fbbf24,#22d3ee,#a78bfa,#fb7185,#34d399);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite;white-space:nowrap}
+@keyframes shimmer{to{background-position:300% center}}
+.btn{cursor:pointer;border:0;outline:0;border-radius:10px;font-weight:700;font-size:12px;transition:.15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-sm{background:rgba(255,255,255,.07);color:#ccc;padding:6px 10px;border:1px solid rgba(255,255,255,.08)}
+.btn-main{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:9px 16px}
+.btn-ghost{background:rgba(0,0,0,.2);color:#cbd5e1;border:1px solid rgba(255,255,255,.08);padding:7px 10px}
+.inp,.sel{background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:10px;outline:0}
+.inp{width:100%;padding:9px 12px;font-size:13px}.sel{padding:8px 10px;font-size:12px}
+.sel option{background:#1e1b3a;color:#fff}.inp:focus,.sel:focus{border-color:rgba(99,102,241,.65);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.fx{display:flex}.aic{align-items:center}.jcb{justify-content:space-between}.g1{gap:4px}.g2{gap:7px}.fs0{flex-shrink:0}.f1{flex:1}.hidden{display:none!important}.txc{text-align:center}
+.top-actions{display:flex;gap:5px;overflow-x:auto;max-width:58vw;padding:1px}.top-actions::-webkit-scrollbar,.hscroll::-webkit-scrollbar{display:none}
+
+/* تطبيق: كل مجموعات الخيارات أفقية منزلقة */
+.section-title{font-size:10px;color:#8f96a8;font-weight:700;margin:0 0 6px}
+.hscroll{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;padding:2px 1px 5px;-webkit-overflow-scrolling:touch}
+.hscroll>*{flex:0 0 auto;scroll-snap-align:start}
+.chip{min-width:max-content;border-radius:12px;padding:7px 10px;background:rgba(0,0,0,.27);border:1px solid rgba(255,255,255,.08);color:#aeb5c4;cursor:pointer;transition:.18s;user-select:none}
+.chip.active{background:rgba(99,102,241,.18);border-color:rgba(129,140,248,.65);color:#fff;box-shadow:0 0 14px rgba(99,102,241,.12)}
+.bot-chip{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:12px;cursor:pointer;user-select:none;transition:.2s;border:1px solid transparent;background:rgba(0,0,0,.3);opacity:.34}
+.bot-chip.on{opacity:1}.bot-chip .chip-emoji{font-size:18px}.bot-chip .chip-name{font-size:11px;font-weight:700;white-space:nowrap}
+.chip-check{width:15px;height:15px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;border:2px solid #555}
+.bot-chip.on .chip-check{background:rgba(255,255,255,.15);border-color:currentColor}
+
+/* أبعاد التفكير */
+.dimension-card{min-width:132px;background:rgba(0,0,0,.23);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:7px 9px}
+.dim-head{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#aeb5c4;margin-bottom:3px}.dim-val{font-weight:900;color:#fff}
+.range{width:100%;height:4px;accent-color:#818cf8;cursor:pointer}
+.dim-icon{font-size:14px}
+
+/* topic */
+.topic-grid{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center}
+.mode-row{display:flex;gap:7px;align-items:center;margin-top:7px;overflow-x:auto;padding-bottom:1px}.mode-row>*{flex:0 0 auto}
+.mode-row .sel{min-width:215px}.mode-label{font-size:10px;color:#9299aa;font-weight:700}
+.sum-btn{background:linear-gradient(135deg,#92400e,#d97706);color:#fff;border:0;border-radius:10px;padding:7px 11px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* quick tools */
+.tools-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.tools-row>*{flex:0 0 auto}
+
+/* chat */
+.chat-box{height:48vh;min-height:330px;max-height:650px;overflow-y:auto;scroll-behavior:smooth;display:flex;flex-direction:column;gap:7px;padding:3px}
+.chat-box::-webkit-scrollbar{width:4px}.chat-box::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:10px}
+.msg{border-radius:12px;padding:9px 11px;animation:slideIn .3s;border-right:4px solid}
+.msg-sys{background:rgba(251,191,36,.07);border:1px dashed rgba(251,191,36,.3);text-align:center;padding:5px;border-radius:8px;animation:fadeIn .3s}
+.msg-sys span{font-size:11px;color:rgba(251,191,36,.85)}
+.msg-summary{border-radius:12px;padding:11px 13px;border:2px solid rgba(251,191,36,.4);background:rgba(251,191,36,.06)!important;position:relative}
+.msg-summary:before{content:'📋 ملخص';position:absolute;top:-10px;right:13px;background:#302b63;padding:2px 9px;border-radius:20px;font-size:9px;font-weight:700;color:#fbbf24;border:1px solid rgba(251,191,36,.4)}
+@keyframes slideIn{from{opacity:0;transform:translateX(15px)}to{opacity:1;transform:translateX(0)}}@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg-header{display:flex;align-items:center;gap:6px;margin-bottom:4px}.msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid;flex-shrink:0}
+.msg-name{font-size:11px;font-weight:700}.msg-time{font-size:9px;color:#4b5563}.msg-speak-btn{background:none;border:0;cursor:pointer;font-size:12px;padding:2px;color:#737b8c;margin-right:auto}.msg-text{font-size:12.5px;color:#e5e7eb;line-height:1.75}
+.typing-bar{display:none;padding:4px 6px}.typing-bar.show{display:flex}.typing-inner{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.3);border-radius:10px;padding:6px 10px}.t-name{font-size:10px;font-weight:700}.t-label{font-size:10px;color:#6b7280}
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#888;animation:bounce 1.4s infinite}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.status-bar{display:flex;align-items:center;justify-content:space-between;gap:7px}.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}.status-text{font-size:10px;color:#9ca3af}
+.wave{display:none;align-items:center;gap:2px;margin-right:4px}.wave.show{display:flex}.wave-bar{width:3px;border-radius:3px;background:#34d399;animation:wv .8s infinite}.wave-bar:nth-child(2){animation-delay:.1s}.wave-bar:nth-child(3){animation-delay:.15s}.wave-bar:nth-child(4){animation-delay:.25s}
+@keyframes wv{0%,100%{height:6px}50%{height:16px}}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,.45)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}.pulsing{animation:pulse 2s infinite}
+
+/* bottom interrupt */
+.int-row{display:flex;gap:6px}.int-row .inp{min-width:0}
+.rate-section{padding-top:7px}.rate-item{margin-bottom:5px}.rate-label{display:flex;justify-content:space-between;font-size:9px;margin-bottom:2px}.rate-track{height:4px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden}.rate-fill{height:100%;border-radius:5px;transition:.4s}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}.modal-box{background:rgba(15,12,41,.97);border:1px solid rgba(255,255,255,.12);border-radius:18px 18px 0 0;width:min(600px,100%);max-height:88vh;overflow:auto;padding:16px}
+.modal-title{font-size:15px;font-weight:900}.field{margin-bottom:12px}.field label{display:block;color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:5px}
+.settings-tabs{display:flex;gap:6px;overflow:auto;margin:8px 0}.settings-tabs button{flex:0 0 auto}
+.save-note{font-size:9px;color:#687084;margin-top:4px}
+@media(min-width:650px){.modal-bg{align-items:center}.modal-box{border-radius:16px;width:92%;max-width:520px}.chat-box{height:50vh}}
+@media(max-width:520px){body{padding:5px}.app{gap:6px}.panel{padding:8px}.logo{font-size:17px}.top-actions{max-width:65vw}.topic-grid{grid-template-columns:1fr auto}.topic-grid #startBtn{grid-column:1/-1;width:100%}.mode-row .sel{min-width:200px}.chat-box{height:49vh;min-height:300px}.status-bar{align-items:flex-start}.ctrl-row{width:100%}.ctrl-row .btn{flex:1}}
 </style>
 </head>
-
 <body>
 <div class="app">
 
-<!-- HEADER -->
 <div class="panel header">
-  <div>
-    <div class="logo">⚡ ساحة النقاش</div>
-    <div style="font-size:8px;color:#596273">PRO • Multi-Agent Discussion</div>
-  </div>
-  <div class="header-actions">
-    <button class="btn btn-dark btn-sm" onclick="toggleSpeaker()"><span id="spkIcon">🔇</span><span id="spkLabel">الصوت</span></button>
-    <button class="btn btn-dark btn-sm" onclick="cycleSpeed()" id="speedBtn">🚗 عادي</button>
-    <button class="btn btn-dark btn-sm" onclick="openSettings()">⚙️</button>
+  <span class="logo">⚡ ساحة النقاش</span>
+  <div class="top-actions">
+    <button onclick="toggleSpeaker()" id="spkBtn" class="btn btn-sm"><span id="spkIcon">🔇</span><span id="spkLabel">الصوت</span></button>
+    <button onclick="cycleSpeed()" id="speedBtn" class="btn btn-sm">🚗 عادي</button>
+    <button onclick="openSettings()" class="btn btn-sm">⚙️</button>
   </div>
 </div>
 
-<!-- CHARACTERS -->
+<!-- الشخصيات: شريط منزلق كما في التطبيق الأصلي -->
 <div class="panel">
-  <div class="section-title">🤖 الشخصيات <span style="color:#555;font-weight:400">— اسحب أفقياً</span></div>
-  <div class="scroll-row" id="botsRow"></div>
+  <div class="section-title">🤖 الشخصيات — اسحب أفقياً</div>
+  <div class="hscroll" id="botsRow"></div>
 </div>
 
-<!-- TOPIC / TIMER / START -->
+<!-- أبعاد التفكير: شريط منزلق مستقل -->
 <div class="panel">
-  <div class="top-grid">
-    <input id="topicInput" class="inp topic" placeholder="أدخل الموضوع أو المشكلة..." onkeydown="if(event.key==='Enter')startDebate()">
-    <select id="timerSelect" class="sel small-sel">
-      <option value="0">⏱ تلقائي</option><option value="2">⏱ 2ث</option><option value="5" selected>⏱ 5ث</option>
-      <option value="10">⏱ 10ث</option><option value="15">⏱ 15ث</option><option value="30">⏱ 30ث</option>
+  <div class="section-title">🧠 أبعاد التفكير — اسحب لاختيار مستوى كل بُعد</div>
+  <div class="hscroll" id="dimensionsRow"></div>
+</div>
+
+<!-- زوايا/عدسات التفكير -->
+<div class="panel">
+  <div class="section-title">🔭 عدسة النقاش — اختر منظوراً إضافياً</div>
+  <div class="hscroll" id="lensesRow"></div>
+</div>
+
+<div class="panel">
+  <div class="topic-grid">
+    <input id="topicInput" class="inp" placeholder="أدخل الموضوع أو المشكلة..." onkeydown="if(event.key==='Enter')startDebate()">
+    <select id="timerSelect" class="sel">
+      <option value="0">⏱ تلقائي</option><option value="5">⏱ 5ث</option><option value="10" selected>⏱ 10ث</option>
+      <option value="15">⏱ 15ث</option><option value="20">⏱ 20ث</option><option value="30">⏱ 30ث</option>
+      <option value="45">⏱ 45ث</option><option value="60">⏱ 60ث</option><option value="90">⏱ 90ث</option><option value="120">⏱ 120ث</option>
     </select>
-    <button onclick="startDebate()" id="startBtn" class="btn btn-main nowrap">🚀 ابدأ</button>
+    <button onclick="startDebate()" id="startBtn" class="btn btn-main">🚀 ابدأ</button>
   </div>
-
   <div class="mode-row">
+    <span class="mode-label">🎯 النوع</span>
     <select id="modeSelect" class="sel" onchange="onModeChange(this.value)">
       <option value="debate">🎭 نقاش حر</option><option value="problem">🔧 حل مشكلة</option>
       <option value="decision">⚖️ اتخاذ قرار</option><option value="analysis">🔍 تحليل</option>
-      <option value="brainstorm">💡 عصف ذهني</option><option value="risk">⚠️ تقييم المخاطر</option>
-      <option value="plan">📅 خطة</option><option value="prediction">🔮 توقع المستقبل</option>
-      <option value="negotiation">🤝 تفاوض</option><option value="creative">🎨 إبداع</option>
-      <option value="research">📚 بحث</option><option value="crisis">🚨 إدارة أزمة</option>
+      <option value="brainstorm">💡 عصف ذهني</option><option value="risk">⚠️ مخاطر</option><option value="plan">📅 خطة</option>
     </select>
-    <select id="roundSelect" class="sel small-sel" title="الجولات">
-      <option value="0">∞ جولات</option><option value="2">2 ج</option><option value="3" selected>3 ج</option>
-      <option value="5">5 ج</option><option value="10">10 ج</option><option value="20">20 ج</option>
-    </select>
-  </div>
-
-  <!-- THINKING DIMENSIONS: HORIZONTAL -->
-  <div style="margin-top:7px">
-    <div class="section-title">🧭 أبعاد التفكير <span style="color:#555;font-weight:400">— اسحب أفقياً</span></div>
-    <div class="scroll-row" id="dimensionsRow"></div>
-  </div>
-
-  <!-- WORLDS: HORIZONTAL -->
-  <div style="margin-top:3px">
-    <div class="section-title">🌍 عالم النقاش <span style="color:#555;font-weight:400">— اسحب أفقياً</span></div>
-    <div class="scroll-row" id="worldsRow"></div>
-  </div>
-
-  <div class="mode-row">
-    <span class="badge" id="modeBadge" style="color:#a78bfa;border-color:#a78bfa">🎭 نقاش حر</span>
-    <span class="badge" id="worldBadge" style="color:#22d3ee;border-color:#22d3ee">🌐 عام</span>
-    <select id="depthSelect" class="sel small-sel" title="عمق التفكير">
-      <option value="quick">⚡ سريع</option><option value="normal" selected>🧠 متوازن</option><option value="deep">🔬 عميق</option><option value="expert">👑 خبير</option>
-    </select>
-    <button class="btn btn-gold btn-sm" onclick="triggerSummary()">📋 ملخص</button>
-    <button class="btn btn-dark btn-sm" onclick="showDecision()">⚖️ قرار</button>
+    <button class="sum-btn" onclick="triggerSummary()">📋 ملخص</button>
   </div>
 </div>
 
-<!-- STATUS -->
-<div class="panel status">
-  <div class="status-left"><div class="status-dot" id="sDot"></div><span class="status-text" id="sText">في انتظار بدء النقاش...</span></div>
-  <div class="header-actions status-actions">
-    <button onclick="pauseDebate()" id="pauseBtn" disabled class="btn btn-dark btn-sm" style="color:#fbbf24">⏸</button>
-    <button onclick="resumeDebate()" id="resumeBtn" disabled class="btn btn-dark btn-sm" style="color:#34d399">▶</button>
-    <button onclick="newChat(true)" class="btn btn-dark btn-sm" style="color:#fb7185">🔄</button>
-    <button onclick="exportChat('txt')" class="btn btn-dark btn-sm" style="color:#a78bfa">📥</button>
+<div class="panel status-bar">
+  <div class="fx aic g2">
+    <div class="status-dot" id="sDot" style="background:#6b7280"></div><span class="status-text" id="sText">في انتظار بدء النقاش...</span>
+    <div class="wave" id="waveEl"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
+  </div>
+  <div class="ctrl-row fx g1">
+    <button onclick="pauseDebate()" id="pauseBtn" disabled class="btn btn-sm" style="color:#fbbf24">⏸</button>
+    <button onclick="resumeDebate()" id="resumeBtn" disabled class="btn btn-sm" style="color:#34d399">▶</button>
+    <button onclick="newChat()" class="btn btn-sm" style="color:#fb7185">🔄</button>
+    <button onclick="exportChat()" class="btn btn-sm" style="color:#a78bfa">📥</button>
   </div>
 </div>
 
-<!-- COMPACT DASHBOARD -->
-<div class="panel">
-  <div class="compact-stats">
-    <div class="stat"><b id="metricMsgs">0</b><span>رسائل</span></div>
-    <div class="stat"><b id="metricRounds">0</b><span>جولات</span></div>
-    <div class="stat"><b id="metricIdeas">0</b><span>أفكار</span></div>
-    <div class="stat"><b id="metricBots">0</b><span>شخصيات</span></div>
-    <div class="stat"><b id="metricScore">0%</b><span>الجودة</span></div>
-    <div class="stat"><b id="headTime">00:00</b><span>الوقت</span></div>
-  </div>
-  <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
-</div>
-
-<!-- CHAT -->
-<div class="panel chat-panel">
+<div class="panel" style="padding:7px">
   <div class="chat-box" id="chatArea">
-    <div class="welcome" id="welcomeMsg">
-      <div class="icon">🎭</div>
-      <div class="title">ساحة النقاش الذكي</div>
-      <div class="sub">اختر الشخصيات، اسحب أبعاد التفكير والعالم، أدخل الموضوع ثم ابدأ. كل شخصية تضيف منظوراً مختلفاً.</div>
+    <div class="txc" style="padding:40px 10px" id="welcomeMsg">
+      <div style="font-size:42px;margin-bottom:8px">🎭</div>
+      <div style="font-size:15px;font-weight:700;color:#ccc">ساحة النقاش الذكي</div>
+      <div style="font-size:11px;color:#666;max-width:340px;margin:3px auto">فعّل الشخصيات، اضبط أبعاد التفكير، اختر العدسة ثم ابدأ.</div>
     </div>
   </div>
-  <div class="typing" id="typingBar">
-    <div class="typing-inner">
-      <span id="tEmoji">🤖</span><span class="typing-name" id="tName">يفكر</span><span class="typing-label">يحلل</span>
-      <span><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-    </div>
+  <div class="typing-bar" id="typingBar"><div class="typing-inner"><span id="tEmoji">🎙️</span><span id="tName" class="t-name" style="color:#fbbf24">المذيع</span><span class="t-label">يفكر</span><span class="fx g1" style="margin-right:3px"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div></div>
+</div>
+
+<div class="panel">
+  <div class="int-row">
+    <input id="intInput" class="inp" placeholder="اكتب لمقاطعة النقاش أو طرح سؤال..." onkeydown="if(event.key==='Enter')interrupt()">
+    <button onclick="interrupt()" class="btn btn-ghost">✋ قاطع</button>
   </div>
 </div>
 
-<!-- RATINGS -->
-<div class="panel">
-  <div class="section-title">📊 جودة الجلسة</div>
-  <div class="rating-row">
-    <div class="rating"><div class="rating-head"><span>💡 الأفكار</span><b id="rIdeas">0</b></div><div class="track"><div class="fill" id="rfIdeas" style="background:#a78bfa"></div></div></div>
-    <div class="rating"><div class="rating-head"><span>🔎 الأدلة</span><b id="rEvidence">0</b></div><div class="track"><div class="fill" id="rfEvidence" style="background:#22d3ee"></div></div></div>
-    <div class="rating"><div class="rating-head"><span>🔄 التنوع</span><b id="rDiversity">0</b></div><div class="track"><div class="fill" id="rfDiversity" style="background:#34d399"></div></div></div>
-    <div class="rating"><div class="rating-head"><span>🛠 الحلول</span><b id="rSolutions">0</b></div><div class="track"><div class="fill" id="rfSolutions" style="background:#fbbf24"></div></div></div>
-    <div class="rating"><div class="rating-head"><span>⚠️ المخاطر</span><b id="rRisks">0</b></div><div class="track"><div class="fill" id="rfRisks" style="background:#fb7185"></div></div></div>
-  </div>
+<div class="panel rate-section">
+  <div class="section-title">📊 حدود الطلبات (40/دقيقة)</div><div id="rateBars"></div>
+</div>
+<div class="txc" style="padding:3px"><span style="font-size:9px;color:#444">مبني بـ ❤️ | نفس بوابة API الأصلية + Web Speech API</span></div>
 </div>
 
-<!-- INTERRUPT -->
-<div class="panel">
-  <div class="interrupt-row">
-    <input id="intInput" class="inp" placeholder="✋ قاطع النقاش أو اطرح سؤالاً..." onkeydown="if(event.key==='Enter')interrupt()">
-    <button onclick="interrupt()" class="btn btn-dark nowrap">✋ أرسل</button>
-  </div>
-</div>
-
-<!-- RATE LIMITS -->
-<div class="panel">
-  <div class="section-title">📊 حدود الطلبات <span style="color:#555">40/دقيقة</span></div>
-  <div class="rate-row" id="rateBars"></div>
-</div>
-
-<div class="footer"><span>⚡ مبني بـ HTML/CSS/JS • Claude/OpenAI Compatible • Web Speech API</span></div>
-</div>
-
-<!-- SETTINGS MODAL -->
 <div class="modal-bg" id="settingsModal">
-  <div class="modal">
-    <div class="row" style="justify-content:space-between">
-      <div class="modal-title">⚙️ الإعدادات</div>
-      <button onclick="closeSettings()" class="btn btn-dark">✕</button>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">🔑 مفتاح API</label>
-      <input type="password" id="apiKeyInput" class="inp" dir="ltr" placeholder="sk-...">
-      <div style="font-size:9px;color:#596273;margin-top:5px">🔌 مفتاح API بصيغة الكود الأصلي.</div>
-      <div class="row" style="margin-top:6px">
-        <button onclick="saveSettings()" class="btn btn-main">💾 حفظ</button>
-        <button onclick="testAPI()" class="btn btn-dark">🔌 اختبار</button>
-      </div>
-      <div id="keyStatus" style="font-size:9px;color:#666;margin-top:5px"></div>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">🎤 سرعة الصوت <span id="speedVal">1x</span></label>
-      <input type="range" id="speechRange" min=".5" max="2" step=".1" value="1" style="width:100%;accent-color:#6366f1" oninput="speechSpd=parseFloat(this.value);speedVal.textContent=this.value+'x'">
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">🧠 الإبداع</label>
-      <select id="temperatureSelect" class="sel">
-        <option value=".3">منخفض</option><option value=".6">متوازن</option><option value=".8" selected>مرتفع</option><option value="1">إبداعي جداً</option>
-      </select>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">📝 طول الرد</label>
-      <select id="tokenSelect" class="sel">
-        <option value="180">مختصر</option><option value="300" selected>متوسط</option><option value="500">طويل</option><option value="800">عميق</option>
-      </select>
-    </div>
-
-    <div class="modal-section">
-      <div class="row" style="flex-wrap:wrap">
-        <button onclick="exportChat('json')" class="btn btn-dark">JSON</button>
-        <button onclick="exportChat('md')" class="btn btn-dark">Markdown</button>
-        <button onclick="clearStoredSettings()" class="btn btn-dark" style="color:#fb7185">حذف الإعدادات</button>
-      </div>
-    </div>
+<div class="modal-box">
+  <div class="fx aic jcb"><span class="modal-title">⚙️ الإعدادات</span><button onclick="closeSettings()" class="btn btn-ghost">✕</button></div>
+  <div class="settings-tabs"><button class="btn chip active">🔑 الاتصال</button><button class="btn chip" onclick="document.getElementById('advancedSettings').classList.toggle('hidden')">🧪 متقدم</button></div>
+  <div class="field">
+    <label>🔑 مفتاح API — نفس طريقة النسخة الأصلية</label>
+    <div class="fx g2"><input type="password" id="apiKeyInput" placeholder="sk-..." dir="ltr" class="inp"><button onclick="saveKey()" class="btn btn-main">حفظ</button></div>
+    <p id="keyStatus" class="save-note"></p>
+    <p class="save-note">يُحفظ محلياً في <b>localStorage</b> بالمفتاح <b>api_key</b> كما في الكود الأصلي.</p>
   </div>
+  <div class="field">
+    <label>🎤 سرعة الكلام: <span id="speedVal">1.0x</span></label>
+    <input type="range" id="speechRange" min=".5" max="2" step=".1" value="1" class="range" oninput="speechSpd=parseFloat(this.value);document.getElementById('speedVal').textContent=this.value+'x'">
+  </div>
+  <div id="advancedSettings" class="hidden">
+    <div class="field">
+      <label>🧠 الحد الأقصى لسجل السياق</label>
+      <input type="range" id="histRange" min="8" max="32" step="2" value="16" class="range" oninput="MAX_HIST=parseInt(this.value);document.getElementById('histVal').textContent=this.value">
+      <span id="histVal" class="save-note">16</span>
+    </div>
+    <div class="save-note">النموذج، الرابط، Authorization، body، وصيغة الاستجابة بقيت متوافقة مع الكود الأصلي.</div>
+  </div>
+</div>
 </div>
 
 <script>
-/* =========================
-   CONFIG
-========================= */
+/* =========================================================
+   CORE ORIGINAL — لا تغيير في بوابة API أو طريقة المفتاح
+   ========================================================= */
 var API_URL='https://ayb-bh92-wep2app.hf.space/v1/chat/completions';
-var apiKey='';
-try { apiKey=localStorage.getItem('api_key') || ''; } catch(e){}
 
-/* =========================
-   DATA
-========================= */
-const MODE_INFO={
- debate:{label:'نقاش حر',icon:'🎭',color:'#a78bfa',placeholder:'مثال: هل الذكاء الاصطناعي سيحل محل البشر؟'},
- problem:{label:'حل مشكلة',icon:'🔧',color:'#fb7185',placeholder:'مثال: كيف أحل مشكلة ضعف المبيعات؟'},
- decision:{label:'اتخاذ قرار',icon:'⚖️',color:'#22d3ee',placeholder:'مثال: هل أبدأ المشروع الآن؟'},
- analysis:{label:'تحليل',icon:'🔍',color:'#f59e0b',placeholder:'مثال: لماذا تفشل بعض الشركات؟'},
- brainstorm:{label:'عصف ذهني',icon:'💡',color:'#34d399',placeholder:'مثال: كيف نضاعف المبيعات؟'},
- risk:{label:'تقييم المخاطر',icon:'⚠️',color:'#f97316',placeholder:'مثال: ما مخاطر هذا الاستثمار؟'},
- plan:{label:'خطة',icon:'📅',color:'#818cf8',placeholder:'مثال: أريد تعلم البرمجة خلال 6 أشهر'},
- prediction:{label:'توقع المستقبل',icon:'🔮',color:'#38bdf8',placeholder:'مثال: كيف سيكون سوق العمل بعد 10 سنوات؟'},
- negotiation:{label:'تفاوض',icon:'🤝',color:'#34d399',placeholder:'مثال: كيف أتفاوض على سعر أفضل؟'},
- creative:{label:'إبداع',icon:'🎨',color:'#f472b6',placeholder:'مثال: ابتكر فكرة مشروع جديدة'},
- research:{label:'بحث',icon:'📚',color:'#60a5fa',placeholder:'مثال: اشرح أسباب الثورة الصناعية'},
- crisis:{label:'إدارة أزمة',icon:'🚨',color:'#ef4444',placeholder:'مثال: حدث تسريب بيانات، ماذا نفعل؟'}
-};
+var BOTS=[
+{id:'anchor',name:'المذيع',emoji:'🎙️',color:'#fbbf24',bg:'rgba(251,191,36,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مذيع حوار ذكي. قدّم الموضوع، نظّم النقاش، واطرح أسئلة محفزة. عربية فصحى بسيطة. 2-3 جمل.',problem:'أنت مدير جلسة حل مشاكل. وجّه النقاش نحو الحلول العملية. اسأل: ما الأسباب الجذرية؟ ما الخيارات المتاحة؟ 2-3 جمل.',decision:'أنت مدير جلسة قرار. ساعد على تقييم كل خيار. اسأل عن المعايير والأولويات. 2-3 جمل.',analysis:'أنت مدير تحليل. قسّم الموضوع لأجزاء، اسأل عن كل جانب. 2-3 جمل.',brainstorm:'أنت مدير عصف ذهني. شجّع الأفكار الجديدة، لا تنتقد. 2-3 جمل.',risk:'أنت مدير تقييم مخاطر. اسأل عن المخاطر المحتملة والفوائد. 2-3 جمل.',plan:'أنت مدير تخطيط. ساعد على تحديد الخطوات التنفيذية. اسأل: ما الخطوة الأولى؟ من المسؤول؟ 2-3 جمل.'},voice:{pitch:1,rate:1},on:true},
+{id:'scientist',name:'العالِم',emoji:'🔬',color:'#22d3ee',bg:'rgba(34,211,238,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت عالم منطقي. استند للحقائق والأدلة. عربية. 2-3 جمل.',problem:'أنت خبير تقني. حلّل المشكلة علمياً. اقترح حلولاً مبنية على بيانات. 2-3 جمل.',decision:'أنت محلل بيانات. قيّم الخيارات بأرقام ونسب. 2-3 جمل.',analysis:'أنت عالم تحليل. فكّك المشكلة لمكوناتها الأساسية. 2-3 جمل.',brainstorm:'أنت مبتكر تقني. اقترح حلولاً تكنولوجية جديدة. 2-3 جمل.',risk:'أنت محلل مخاطر. قيّم الاحتمالات والتأثيرات بدقة. 2-3 جمل.',plan:'أنت مهندس تنفيذ. حدّد الخطوات التقنية والموارد المطلوبة. 2-3 جمل.'},voice:{pitch:.85,rate:.95},on:true},
+{id:'philosopher',name:'الفيلسوف',emoji:'📜',color:'#a78bfa',bg:'rgba(167,139,250,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت فيلسوف عميق. ربط الأفكار بالحكمة والتاريخ. أسلوب تأملي. 2-3 جمل.',problem:'أنت فيلسوف عملي. تساءل: ما جذر المشكلة؟ هل نحل السبب أم الأعراض؟ 2-3 جمل.',decision:'أنت مفكر أخلاقي. قيّم القرارات من منظور القيم والمبادئ. 2-3 جمل.',analysis:'أنت مفكر نقدي. اسأل عن المسلمات الخفية والافتراضات. 2-3 جمل.',brainstorm:'أنت فيلسوف إبداعي. اقترح أفكاراً من خارج الصندوق. 2-3 جمل.',risk:'أنت حكيم. تأمل العواقب بعيدة المدى. 2-3 جمل.',plan:'أنت استراتيجي. ضع الخطة في سياقها الأكبر والغاية النهائية. 2-3 جمل.'},voice:{pitch:.7,rate:.82},on:true},
+{id:'skeptic',name:'المشكّك',emoji:'🔍',color:'#fb7185',bg:'rgba(251,113,133,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت ناقد ذكي. شكّك في كل فكرة، ابحث عن الثغرات. حاد ومحترم. 2-3 جمل.',problem:'أنت محقق. اسأل: هل هذا فعلاً مشكلة؟ من يستفيد منها؟ ما الثمن الحقيقي؟ 2-3 جمل.',decision:'أنت مشكك في القرارات. اسأل: ما الذي يُخفى؟ من تضرر؟ هل الخيارات صحيحة؟ 2-3 جمل.',analysis:'أنت ناقد. اكشف التناقضات والافتراضات الخاطئة. 2-3 جمل.',brainstorm:'أنت مختبر. اسأل: هل هذه الفكرة ممكنة فعلاً؟ ما تكلفتها؟ 2-3 جمل.',risk:'أنت متشائم بنّاء. عدّد كل المخاطر الممكنة حتى الصغيرة. 2-3 جمل.',plan:'أنت محلل ثغرات. ابحث عن الخطوات الضعيفة في الخطة. 2-3 جمل.'},voice:{pitch:1.15,rate:1.1},on:false},
+{id:'summarizer',name:'الملخّص',emoji:'📋',color:'#fbbf24',bg:'rgba(251,191,36,.10)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت ملخّص محترف. دورك يبدأ فقط عندما تُطلب. لخّص النقاش: النقاط الرئيسية، التوافقات، الخلافات. منظم ومختصر. 4-6 جمل.',problem:'أنت ملخّص حلول. لخّص: المشكلة الأساسية، الحلول المقترحة، الإجماع والخلاف. 4-6 جمل.',decision:'أنت ملخّص قرارات. لخّص: الخيارات المطروحة، إيجابيات وسلبيات كل خيار، التوجه العام. 4-6 جمل.',analysis:'أنت ملخّص تحليل. لخّص الجوانب المكتشفة والنقاط الرئيسية. 4-6 جمل.',brainstorm:'أنت ملخّص أفكار. صنّف الأفكار واجمع المتشابهة. 4-6 جمل.',risk:'أنت ملخّص مخاطر. قائمة بأهم المخاطر والفرص مرتبة حسب الأهمية. 4-6 جمل.',plan:'أنت ملخّص خطة. لخّص الخطوات المتفق عليها والمسؤوليات. 4-6 جمل.'},voice:{pitch:.88,rate:.9},on:false,isSummarizer:true,summaryEvery:5},
+{id:'advisor',name:'المستشار',emoji:'🧭',color:'#34d399',bg:'rgba(52,211,153,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مستشار خبير. قدّم توصية عملية بناءً على ما قيل. 2-3 جمل.',problem:'أنت مستشار حلول. بعد الاستماع للجميع، اقترح أفضل حل بخطوات واضحة. 3-4 جمل.',decision:'أنت مستشار قرار. بناءً على المعطيات، أوصِ بخيار محدد مع تبرير واضح. 3-4 جمل.',analysis:'أنت مستشار استراتيجي. بعد التحليل، قدّم توصيتك العملية. 3-4 جمل.',brainstorm:'أنت مستشار ابتكار. حدّد أفضل فكرتين وكيفية تطبيقهما. 3-4 جمل.',risk:'أنت مستشار إدارة مخاطر. اقترح استراتيجية للتعامل مع أخطر المخاطر. 3-4 جمل.',plan:'أنت مستشار تنفيذ. راجع الخطة وقدّم التعديلات الضرورية. 3-4 جمل.'},voice:{pitch:.92,rate:.88},on:false},
+{id:'analyst',name:'المحلل',emoji:'📊',color:'#f97316',bg:'rgba(249,115,22,.12)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت محلل بيانات. قدّم أرقاماً ونسباً وإحصاءات لدعم النقاش. 2-3 جمل.',problem:'أنت محلل مشاكل. فصّل المشكلة: الأسباب (80/20)، التأثيرات، الأولويات. 3-4 جمل.',decision:'أنت محلل قرارات. استخدم مصفوفة المعايير لمقارنة الخيارات. 3-4 جمل.',analysis:'أنت محلل بيانات. قدّم تحليلاً كمياً ونوعياً للموضوع. 3-4 جمل.',brainstorm:'أنت محلل جدوى. قيّم كل فكرة: السهولة × التأثير. 3-4 جمل.',risk:'أنت محلل مخاطر. صنّف المخاطر: (الاحتمالية × الخطورة). 3-4 جمل.',plan:'أنت محلل خطط. قيّم جدوى الخطة وحدّد الأولويات والمؤشرات. 3-4 جمل.'},voice:{pitch:1.05,rate:1},on:false},
 
-const DIMENSIONS={
- logic:{name:'منطقي',icon:'🧠',color:'#818cf8'},
- science:{name:'علمي',icon:'🔬',color:'#22d3ee'},
- creative:{name:'إبداعي',icon:'🎨',color:'#f472b6'},
- ethical:{name:'أخلاقي',icon:'⚖️',color:'#a78bfa'},
- strategic:{name:'استراتيجي',icon:'♟️',color:'#34d399'},
- psychological:{name:'نفسي',icon:'🧠',color:'#fb7185'},
- economic:{name:'اقتصادي',icon:'💰',color:'#fbbf24'},
- historical:{name:'تاريخي',icon:'📜',color:'#d97706'},
- future:{name:'مستقبلي',icon:'🚀',color:'#38bdf8'},
- practical:{name:'عملي',icon:'🛠️',color:'#4ade80'}
-};
-
-const WORLDS={
- general:{name:'عام',icon:'🌐',color:'#22d3ee'},
- business:{name:'أعمال',icon:'💼',color:'#34d399'},
- science:{name:'علم',icon:'🔬',color:'#22d3ee'},
- technology:{name:'تقنية',icon:'💻',color:'#818cf8'},
- education:{name:'تعليم',icon:'🎓',color:'#fbbf24'},
- politics:{name:'سياسة',icon:'🏛️',color:'#a78bfa'},
- economy:{name:'اقتصاد',icon:'💰',color:'#f59e0b'},
- future:{name:'مستقبل',icon:'🚀',color:'#38bdf8'},
- crisis:{name:'أزمات',icon:'🚨',color:'#ef4444'},
- leadership:{name:'قيادة',icon:'👑',color:'#fbbf24'},
- personal:{name:'شخصي',icon:'👤',color:'#fb7185'},
- fiction:{name:'خيالي',icon:'🪐',color:'#c084fc'}
-};
-
-const BOTS=[
- {id:'anchor',name:'المذيع',emoji:'🎙️',color:'#fbbf24',bg:'rgba(251,191,36,.12)',on:true,model:'claude-opus-4-6',voice:{pitch:1,rate:1},role:'تنظيم الحوار',personality:'متزن وواضح ويمنع خروج النقاش عن الموضوع.',prompt:'نظّم النقاش، اربط الردود، واطرح أسئلة تحرك الحوار.'},
- {id:'scientist',name:'العالِم',emoji:'🔬',color:'#22d3ee',bg:'rgba(34,211,238,.12)',on:true,model:'claude-opus-4-6',voice:{pitch:.85,rate:.95},role:'الأدلة والمنطق',personality:'دقيق ويهتم بالحقائق والاحتمالات.',prompt:'حلل علمياً، فرّق بين الحقيقة والافتراض، ولا تخترع بيانات.'},
- {id:'philosopher',name:'الفيلسوف',emoji:'📜',color:'#a78bfa',bg:'rgba(167,139,250,.12)',on:true,model:'claude-opus-4-6',voice:{pitch:.7,rate:.82},role:'المعنى والقيم',personality:'تأملي وعميق ويكشف الافتراضات الخفية.',prompt:'ناقش المبادئ والقيم والافتراضات والنتائج بعيدة المدى.'},
- {id:'skeptic',name:'المشكّك',emoji:'🔍',color:'#fb7185',bg:'rgba(251,113,133,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1.15,rate:1.1},role:'اختبار الأفكار',personality:'شكّاك بنّاء ويبحث عن الثغرات.',prompt:'اختبر كل ادعاء وابحث عن التناقضات والثغرات والمخاطر.'},
- {id:'advisor',name:'المستشار',emoji:'🧭',color:'#34d399',bg:'rgba(52,211,153,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:.92,rate:.88},role:'التوصية',personality:'عملي ويركز على النتائج.',prompt:'حوّل النقاش إلى توصيات واضحة قابلة للتنفيذ.'},
- {id:'analyst',name:'المحلل',emoji:'📊',color:'#f97316',bg:'rgba(249,115,22,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1.05,rate:1},role:'المقارنة',personality:'كمّي ويبحث عن الأنماط والمعايير.',prompt:'قارن الخيارات وحدد المعايير والمقايضات، ولا تخترع أرقاماً.'},
- {id:'historian',name:'المؤرخ',emoji:'🏛️',color:'#d97706',bg:'rgba(217,119,6,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:.78,rate:.85},role:'الدروس التاريخية',personality:'يربط الحاضر بالتجارب السابقة.',prompt:'استخرج دروساً من التاريخ والأمثلة السابقة ذات الصلة.'},
- {id:'psychologist',name:'عالم النفس',emoji:'🧠',color:'#ec4899',bg:'rgba(236,72,153,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1,rate:.92},role:'السلوك',personality:'يركز على الدوافع والتحيزات والسلوك.',prompt:'حلل الدوافع والتحيزات والسلوك البشري دون تشخيصات طبية.'},
- {id:'engineer',name:'المهندس',emoji:'⚙️',color:'#94a3b8',bg:'rgba(148,163,184,.10)',on:false,model:'claude-opus-4-6',voice:{pitch:.82,rate:.95},role:'التنفيذ',personality:'منهجي ويهتم بالقيود والموارد.',prompt:'حوّل الأفكار إلى خطوات ومتطلبات واختبارات عملية.'},
- {id:'entrepreneur',name:'رائد الأعمال',emoji:'💼',color:'#10b981',bg:'rgba(16,185,129,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1.02,rate:1.02},role:'الفرص',personality:'يركز على العملاء والنمو والمخاطرة.',prompt:'ابحث عن الفرص والسوق والعملاء ونموذج القيمة والتكاليف.'},
- {id:'diplomat',name:'الدبلوماسي',emoji:'🤝',color:'#60a5fa',bg:'rgba(96,165,250,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:.95,rate:.9},role:'التوافق',personality:'هادئ ويبحث عن المصالح المشتركة.',prompt:'خفف الخلاف وابحث عن حل وسط ومصالح مشتركة.'},
- {id:'futurist',name:'المستقبلي',emoji:'🚀',color:'#38bdf8',bg:'rgba(56,189,248,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1.1,rate:1},role:'السيناريوهات',personality:'يستشرف التحولات المستقبلية.',prompt:'ضع سيناريوهات مستقبلية واذكر القوى التي قد تغير النتائج.'},
- {id:'devils_advocate',name:'محامي الشيطان',emoji:'😈',color:'#ef4444',bg:'rgba(239,68,68,.12)',on:false,model:'claude-opus-4-6',voice:{pitch:1.2,rate:1.08},role:'الحجة المضادة',personality:'يبني أقوى حجة ضد الرأي السائد.',prompt:'قدّم أقوى حجة مضادة للاتجاه الحالي باحترام ودقة.'},
- {id:'summarizer',name:'الملخّص',emoji:'📋',color:'#fbbf24',bg:'rgba(251,191,36,.08)',on:false,model:'claude-opus-4-6',voice:{pitch:.88,rate:.9},role:'تركيب المعرفة',personality:'منظم ومختصر.',prompt:'لخص الأفكار والاتفاقات والخلافات والحلول والمخاطر.'}
+/* إضافات جديدة: لا تستبدل الشخصيات الأصلية */
+{id:'psychologist',name:'النفسي',emoji:'🧠',color:'#c084fc',bg:'rgba(192,132,252,.11)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت عالم نفس. حلّل الدوافع والتحيزات وطريقة تفكير الأطراف دون تشخيص طبي. 2-3 جمل.',problem:'حلّل السلوك والدوافع والعوامل البشرية وراء المشكلة، ثم اقترح تدخلاً عملياً. 3 جمل.',decision:'اكشف التحيزات النفسية المؤثرة في القرار مثل الخوف والانحياز للتكلفة الغارقة. 3 جمل.',analysis:'حلّل العوامل البشرية والدوافع والافتراضات النفسية. 3 جمل.',brainstorm:'اقترح أفكاراً تنطلق من فهم احتياجات الإنسان ودوافعه. 3 جمل.',risk:'حدّد المخاطر السلوكية والنفسية والانحيازات المحتملة. 3 جمل.',plan:'صمّم الخطة بحيث تراعي العادات والدافعية ومقاومة التغيير. 3 جمل.'},voice:{pitch:.95,rate:.96},on:false},
+{id:'economist',name:'الاقتصادي',emoji:'💰',color:'#facc15',bg:'rgba(250,204,21,.1)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت اقتصادي. ناقش الحوافز والتكاليف والفرص البديلة والآثار الجانبية. 2-3 جمل.',problem:'حلّل المشكلة من منظور التكلفة والحوافز والموارد والفرصة البديلة. 3 جمل.',decision:'قارن الخيارات من حيث العائد والتكلفة والمخاطر والفرصة البديلة. 3 جمل.',analysis:'حلّل السوق والحوافز والتكاليف والتأثيرات غير المباشرة. 3 جمل.',brainstorm:'اقترح أفكاراً ذات قيمة اقتصادية وقابلية للاستدامة. 3 جمل.',risk:'قيّم المخاطر المالية والسوقية والسيولة وحساسية السيناريوهات. 3 جمل.',plan:'حوّل الخطة إلى مراحل وميزانية ومؤشرات عائد. 3 جمل.'},voice:{pitch:1.0,rate:.96},on:false},
+{id:'engineer',name:'المهندس',emoji:'⚙️',color:'#60a5fa',bg:'rgba(96,165,250,.1)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مهندس نظم. ابحث عن القيود والاعتماديات وكيف يمكن اختبار الفكرة عملياً. 2-3 جمل.',problem:'قسّم المشكلة إلى مكونات ومدخلات ومخرجات وقيود ثم اقترح حلاً قابلاً للتنفيذ. 3 جمل.',decision:'قارن الخيارات بناءً على الأداء والموثوقية والتكلفة وقابلية التوسع. 3 جمل.',analysis:'فكك النظام وحدد نقاط الاختناق والاعتماديات. 3 جمل.',brainstorm:'اقترح حلولاً هندسية قابلة للبناء والاختبار. 3 جمل.',risk:'ابحث عن نقاط الفشل والاعتماديات ونقاط الاختناق. 3 جمل.',plan:'حوّل الخطة إلى مراحل تنفيذ واختبارات ومعايير قبول. 3 جمل.'},voice:{pitch:.9,rate:.92},on:false},
+{id:'ethicist',name:'الأخلاقي',emoji:'⚖️',color:'#fb7185',bg:'rgba(251,113,133,.1)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مفكر أخلاقي. افحص العدالة والحقوق والضرر والمسؤولية. 2-3 جمل.',problem:'افحص الحلول من زاوية العدالة والضرر على الأطراف المختلفة. 3 جمل.',decision:'وازن بين النتائج والحقوق والعدالة والمبادئ. لا تفرض حكماً واحداً. 3 جمل.',analysis:'اكشف الآثار الأخلاقية والجهات المتضررة والمستفيدة. 3 جمل.',brainstorm:'اقترح أفكاراً مبتكرة مع مراعاة الثقة والعدالة والمسؤولية. 3 جمل.',risk:'حدد المخاطر الأخلاقية والقانونية والاجتماعية المحتملة. 3 جمل.',plan:'أضف ضوابط ومسؤوليات ومراجعات أخلاقية إلى الخطة. 3 جمل.'},voice:{pitch:1.02,rate:.9},on:false},
+{id:'futurist',name:'المستقبلي',emoji:'🚀',color:'#38bdf8',bg:'rgba(56,189,248,.1)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مستشرف مستقبل. فكر في الاتجاهات والسيناريوهات وما قد يتغير خلال السنوات القادمة. 2-3 جمل.',problem:'فكر في حلول لا تعالج اليوم فقط بل تصمد أمام تغيرات المستقبل. 3 جمل.',decision:'قارن الخيارات في سيناريوهات متعددة قصيرة ومتوسطة وطويلة المدى. 3 جمل.',analysis:'حلّل الاتجاهات والقوى المحركة والسيناريوهات البديلة. 3 جمل.',brainstorm:'اقترح أفكاراً جريئة قد تصبح مهمة مستقبلاً. 3 جمل.',risk:'ابحث عن مخاطر ناشئة وغير واضحة في الأفق. 3 جمل.',plan:'ضع نقاط مراجعة مستقبلية وبدائل إذا تغيرت الظروف. 3 جمل.'},voice:{pitch:1.08,rate:.98},on:false},
+{id:'creative',name:'المبدع',emoji:'🎨',color:'#f472b6',bg:'rgba(244,114,182,.1)',model:'claude-opus-4-6',
+ prompts:{debate:'أنت مبدع. اربط الموضوع بأفكار غير متوقعة واستعارات ذكية. 2-3 جمل.',problem:'أعد صياغة المشكلة بطرق جديدة ثم اقترح حلولاً غير تقليدية قابلة للاختبار. 3 جمل.',decision:'ابحث عن خيار رابع أو حل هجين لا يظهر في الخيارات التقليدية. 3 جمل.',analysis:'انظر للموضوع من زوايا غير مألوفة واكشف الروابط الخفية. 3 جمل.',brainstorm:'ولّد أفكاراً كثيرة متنوعة ثم رشّح الأكثر إثارة وقابلية للتجربة. 3-4 جمل.',risk:'ابحث عن سيناريوهات مفاجئة لا تظهر في التحليل التقليدي. 3 جمل.',plan:'أضف تجارب صغيرة سريعة لاختبار الأفكار قبل التوسع. 3 جمل.'},voice:{pitch:1.12,rate:1.04},on:false}
 ];
 
-/* =========================
-   STATE
-========================= */
-let globalSpk=false,speechSpd=1,speedMode='normal';
-let running=false,paused=false;
-let topic='',debateMode='debate',world='general',depth='normal';
-let selectedDimensions=['logic','science','strategic','practical'];
-let history=[],messageCount=0,round=0,messagesInRound=0,ideasCount=0;
-let summaryCounter=0,lastBotId=null,debateTimer=null,abortController=null;
-let sessionStart=null,sessionTimer=null;
+var apiKey='';try{apiKey=localStorage.getItem('api_key')||'';}catch(e){}
+var globalSpk=false,speechSpd=1,spdMode='normal',running=false,paused=false,topic='',debateMode='debate',hist=[],turn=0,msgN=0,msgsSinceSummary=0,abortC=null,debateTimer=null,speaking=false,speakMsgId=null,MAX_HIST=16;
+var rLog={};
 
-/* =========================
-   HELPERS
-========================= */
-function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
-function findBot(id){return BOTS.find(b=>b.id===id)||null}
-function activeBots(){return BOTS.filter(b=>b.on&&b.id!=='summarizer')}
-function getSummarizer(){return BOTS.find(b=>b.id==='summarizer'&&b.on)||null}
-function scrollChat(){const a=document.getElementById('chatArea');a.scrollTop=a.scrollHeight}
+function rCount(m){if(!rLog[m])rLog[m]=[];var n=Date.now();rLog[m]=rLog[m].filter(function(t){return t>n-60000});return rLog[m].length}
+function rRecord(m){if(!rLog[m])rLog[m]=[];rLog[m].push(Date.now())}
+function rCan(m){return rCount(m)<40}
+function rDelay(m){var c=rCount(m);if(c>=36)return 6000;if(c>=30)return 4000;if(c>=24)return 2000;if(c>=18)return 1000;return 0}
+function activeBots(){return BOTS.filter(function(b){return b.on&&!b.isSummarizer})}
+function getSummarizer(){return BOTS.find(function(b){return b.isSummarizer&&b.on})||null}
+function findBot(id){return BOTS.find(function(b){return b.id===id})||null}
+function escH(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
-function sysMsg(text){
- const area=document.getElementById('chatArea'),w=document.getElementById('welcomeMsg');
- if(w)w.remove();
- const d=document.createElement('div');d.className='msg-system';d.textContent=text;area.appendChild(d);scrollChat();
-}
+var MODE_INFO={
+debate:{label:'نقاش حر',icon:'🎭',color:'#a78bfa',placeholder:'مثال: هل الذكاء الاصطناعي سيحل محل البشر؟'},
+problem:{label:'حل مشكلة',icon:'🔧',color:'#fb7185',placeholder:'مثال: كيف أحل مشكلة في فريقي؟'},
+decision:{label:'اتخاذ قرار',icon:'⚖️',color:'#22d3ee',placeholder:'مثال: هل أتوسع في مشروعي الآن؟'},
+analysis:{label:'تحليل',icon:'🔍',color:'#f59e0b',placeholder:'مثال: لماذا تفشل بعض الشركات؟'},
+brainstorm:{label:'عصف ذهني',icon:'💡',color:'#34d399',placeholder:'مثال: كيف نزيد المبيعات بميزانية محدودة؟'},
+risk:{label:'تقييم مخاطر',icon:'⚠️',color:'#f97316',placeholder:'مثال: ما مخاطر هذه الفكرة؟'},
+plan:{label:'وضع خطة',icon:'📅',color:'#818cf8',placeholder:'مثال: أريد تعلم مهارة خلال 6 أشهر'}
+};
 
-/* =========================
-   SLIDERS
-========================= */
+/* أبعاد التفكير — كلها منزلقة */
+var DIMENSIONS=[
+{id:'depth',icon:'🧠',name:'العمق',value:60,desc:'سطحي ← عميق'},
+{id:'critical',icon:'🔍',name:'النقد',value:55,desc:'متسامح ← ناقد'},
+{id:'creative',icon:'💡',name:'الإبداع',value:55,desc:'تقليدي ← جريء'},
+{id:'evidence',icon:'📚',name:'الأدلة',value:65,desc:'حدس ← أدلة'},
+{id:'practical',icon:'🛠️',name:'العملية',value:65,desc:'نظري ← تنفيذي'},
+{id:'ethics',icon:'⚖️',name:'الأخلاق',value:45,desc:'نتائج ← قيم'},
+{id:'future',icon:'🚀',name:'المستقبل',value:45,desc:'الآن ← بعيد'},
+{id:'detail',icon:'🔬',name:'التفصيل',value:50,desc:'مختصر ← مفصل'}
+];
+var LENSES=[
+{id:'balanced',name:'⚖️ متوازن',text:'وازن بين الأدلة، النقد، الإبداع، والعملية.'},
+{id:'deep',name:'🧠 عميق',text:'ابحث عن الجذور والافتراضات والآثار بعيدة المدى.'},
+{id:'practical',name:'🛠️ عملي',text:'فضّل الحلول القابلة للتنفيذ والخطوات الواضحة.'},
+{id:'contrarian',name:'🧨 معاكس',text:'تحدى الافتراض السائد وابحث عن تفسير بديل.'},
+{id:'human',name:'❤️ إنساني',text:'ضع احتياجات البشر والدوافع والثقة في المقدمة.'},
+{id:'systems',name:'🕸️ أنظمة',text:'انظر إلى الترابطات والاعتماديات والتأثيرات غير المباشرة.'},
+{id:'future',name:'🚀 مستقبلي',text:'فكر في السيناريوهات والاتجاهات والتغيرات القادمة.'}
+];
+var selectedLens='balanced';
+
 function renderBots(){
- const row=document.getElementById('botsRow');row.innerHTML='';
- BOTS.forEach(b=>{
-  const d=document.createElement('div');
-  d.className='chip '+(b.on?'on':'off');
-  d.style.borderColor=b.on?b.color:'transparent';
-  d.style.color=b.color;
-  d.innerHTML=`<span class="e">${b.emoji}</span><span class="n">${b.name}</span><span class="check">${b.on?'✓':''}</span>`;
-  d.onclick=()=>toggleBot(b.id);
-  row.appendChild(d);
+ var row=document.getElementById('botsRow'),h='';
+ BOTS.forEach(function(b){
+   h+='<div class="bot-chip '+(b.on?'on':'')+'" id="chip-'+b.id+'" onclick="toggleBot(\''+b.id+'\')" style="color:'+b.color+';border-color:'+(b.on?b.color:'transparent')+'"><span class="chip-emoji">'+b.emoji+'</span><span class="chip-name">'+b.name+'</span><span class="chip-check" id="chk-'+b.id+'">'+(b.on?'✓':'')+'</span></div>';
  });
- updateStats();
-}
-function toggleBot(id){
- const b=findBot(id);if(!b)return;
- b.on=!b.on;
- if(running&&activeBots().length<2){b.on=true;sysMsg('⚠️ يجب إبقاء شخصيتين على الأقل.')}
- renderBots();renderRates();
+ row.innerHTML=h;
 }
 function renderDimensions(){
- const row=document.getElementById('dimensionsRow');row.innerHTML='';
- Object.entries(DIMENSIONS).forEach(([id,d])=>{
-  const el=document.createElement('div');el.className='chip dim-chip '+(selectedDimensions.includes(id)?'on':'off');
-  el.style.borderColor=selectedDimensions.includes(id)?d.color:'transparent';el.style.color=d.color;
-  el.innerHTML=`<span class="e">${d.icon}</span><span class="n">${d.name}</span><span class="check">${selectedDimensions.includes(id)?'✓':''}</span>`;
-  el.onclick=()=>{
-   if(selectedDimensions.includes(id)){
-    if(selectedDimensions.length===1){sysMsg('⚠️ يجب إبقاء بُعد واحد على الأقل.');return}
-    selectedDimensions=selectedDimensions.filter(x=>x!==id);
-   }else selectedDimensions.push(id);
-   renderDimensions();
-  };
-  row.appendChild(el);
+ var row=document.getElementById('dimensionsRow'),h='';
+ DIMENSIONS.forEach(function(d){
+   h+='<div class="dimension-card"><div class="dim-head"><span><span class="dim-icon">'+d.icon+'</span> '+d.name+'</span><span class="dim-val" id="dimv-'+d.id+'">'+d.value+'</span></div><input class="range" type="range" min="0" max="100" value="'+d.value+'" oninput="setDimension(\''+d.id+'\',this.value)"><div style="font-size:8px;color:#5f6676;margin-top:1px">'+d.desc+'</div></div>';
  });
+ row.innerHTML=h;
 }
-function renderWorlds(){
- const row=document.getElementById('worldsRow');row.innerHTML='';
- Object.entries(WORLDS).forEach(([id,w])=>{
-  const el=document.createElement('div');el.className='chip world-chip '+(world===id?'on':'off');
-  el.style.borderColor=world===id?w.color:'transparent';el.style.color=w.color;
-  el.innerHTML=`<span class="e">${w.icon}</span><span class="n">${w.name}</span><span class="check">${world===id?'✓':''}</span>`;
-  el.onclick=()=>{world=id;updateWorldBadge();renderWorlds()};
-  row.appendChild(el);
- });
+function renderLenses(){
+ var row=document.getElementById('lensesRow'),h='';
+ LENSES.forEach(function(l){h+='<button class="chip '+(l.id===selectedLens?'active':'')+'" onclick="selectLens(\''+l.id+'\')">'+l.name+'</button>'});
+ row.innerHTML=h;
 }
-function updateWorldBadge(){
- const w=WORLDS[world],b=document.getElementById('worldBadge');b.textContent=w.icon+' '+w.name;b.style.color=w.color;b.style.borderColor=w.color;
+function setDimension(id,val){
+ var d=DIMENSIONS.find(function(x){return x.id===id});if(d)d.value=parseInt(val);
+ var el=document.getElementById('dimv-'+id);if(el)el.textContent=val;
+}
+function selectLens(id){selectedLens=id;renderLenses()}
+
+function dimensionsPrompt(){
+ var s='أبعاد التفكير المختارة:\n';
+ DIMENSIONS.forEach(function(d){s+='- '+d.name+': '+d.value+'/100 ('+d.desc+')\n'});
+ var l=LENSES.find(function(x){return x.id===selectedLens});
+ s+='عدسة النقاش: '+(l?l.name:'متوازن')+' — '+(l?l.text:'')+'\n';
+ s+='طبّق هذه الأبعاد فعلياً في جودة الإجابة، وليس بذكرها صراحة.';
+ return s;
+}
+function onModeChange(v){debateMode=v;var i=MODE_INFO[v];if(i)document.getElementById('topicInput').placeholder=i.placeholder}
+
+function refreshChips(){renderBots()}
+function toggleBot(id){
+ var b=findBot(id);if(!b)return;b.on=!b.on;
+ var active=activeBots().length;
+ if(running&&active<2&&!b.isSummarizer){b.on=true;sysMsg('⚠️ يجب أن يبقى بوتان على الأقل أثناء النقاش!')}
+ renderBots();updateRateBars()
 }
 
-/* =========================
-   MODE
-========================= */
-function onModeChange(v){
- debateMode=v;const m=MODE_INFO[v];
- document.getElementById('topicInput').placeholder=m.placeholder;
- const b=document.getElementById('modeBadge');b.textContent=m.icon+' '+m.label;b.style.color=m.color;b.style.borderColor=m.color;
-}
+function getArVoice(){try{var v=speechSynthesis.getVoices();for(var i=0;i<v.length;i++)if(v[i].lang&&v[i].lang.indexOf('ar')===0)return v[i]}catch(e){}return null}
+try{speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices()}}catch(e){}
+function speakText(txt,bot,mid){return new Promise(function(resolve){if(!globalSpk){resolve();return}try{speechSynthesis.cancel()}catch(e){}var u=new SpeechSynthesisUtterance(txt);u.lang='ar-SA';u.pitch=bot.voice.pitch;u.rate=bot.voice.rate*speechSpd;var v=getArVoice();if(v)u.voice=v;speaking=true;speakMsgId=mid;showWave(true);hlMsg(mid,true);u.onend=function(){speaking=false;speakMsgId=null;showWave(false);hlMsg(mid,false);resolve()};u.onerror=function(){speaking=false;speakMsgId=null;showWave(false);hlMsg(mid,false);resolve()};speechSynthesis.speak(u)})}
+function speakOnce(txt,bot,mid){try{speechSynthesis.cancel()}catch(e){}var u=new SpeechSynthesisUtterance(txt);u.lang='ar-SA';u.pitch=bot.voice.pitch;u.rate=bot.voice.rate*speechSpd;var v=getArVoice();if(v)u.voice=v;speaking=true;speakMsgId=mid;showWave(true);hlMsg(mid,true);u.onend=function(){speaking=false;showWave(false);hlMsg(mid,false)};u.onerror=function(){speaking=false;showWave(false);hlMsg(mid,false)};speechSynthesis.speak(u)}
+function stopSpk(){try{speechSynthesis.cancel()}catch(e){}speaking=false;showWave(false);if(speakMsgId)hlMsg(speakMsgId,false);speakMsgId=null}
+function showWave(on){var w=document.getElementById('waveEl');if(w)w.classList.toggle('show',on)}
+function hlMsg(id,on){var e=document.getElementById(id);if(e)e.style.boxShadow=on?'0 0 15px rgba(52,211,153,.2)':''}
 
-/* =========================
-   CHAT
-========================= */
-function addMessage(text,botId,type='bot'){
- const area=document.getElementById('chatArea'),w=document.getElementById('welcomeMsg');if(w)w.remove();
- messageCount++;
- const id='m'+messageCount;
- const d=document.createElement('div');
- const user=type==='user',summary=type==='summary',bot=user?null:findBot(botId);
- const name=user?'أنت':(bot?bot.name:'النظام'),emoji=user?'👤':(bot?bot.emoji:'🤖'),color=user?'#94a3b8':(bot?bot.color:'#888'),bg=user?'rgba(148,163,184,.07)':(bot?bot.bg:'rgba(255,255,255,.05)');
- d.id=id;d.className=summary?'msg msg-summary':'msg';d.style.background=bg;if(!summary)d.style.borderRightColor=color;
- const now=new Date(),time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
- const tools=!user&&bot?`<div class="msg-tools"><button onclick="playMessage('${id}','${bot.id}')">🔊</button><button onclick="copyMessage('${id}')">📋</button></div>`:'';
- d.innerHTML=`<div class="msg-head"><div class="avatar" style="background:${bg};border-color:${color}">${emoji}</div><span class="msg-name" style="color:${color}">${name}</span><span class="msg-time">${time}</span>${!user?`<span class="msg-round">ج${round}</span>`:''}${tools}</div><div class="msg-text">${esc(text)}</div>`;
- area.appendChild(d);scrollChat();
- if(type==='bot'){
-  history.push({role:'assistant',botId,name,content:text,time:Date.now()});
-  messagesInRound++;
-  summaryCounter++;
-  if(/فكرة|اقتراح|حل|استراتيجية|نقترح|أقترح|طريقة/i.test(text))ideasCount++;
- }else if(type==='user'){
-  history.push({role:'user',botId:'user',name:'أنت',content:text,time:Date.now()});
- }
- updateDashboard();return id;
+function sysMsg(txt){var a=document.getElementById('chatArea'),w=document.getElementById('welcomeMsg');if(w)w.remove();var d=document.createElement('div');d.className='msg-sys';d.innerHTML='<span>'+escH(txt)+'</span>';a.appendChild(d);a.scrollTop=a.scrollHeight}
+function addMsg(txt,botId,type){
+ var a=document.getElementById('chatArea'),w=document.getElementById('welcomeMsg');if(w)w.remove();var id='m'+(++msgN),d=document.createElement('div');d.id=id;
+ if(type==='system'){d.className='msg-sys';d.innerHTML='<span>'+escH(txt)+'</span>';a.appendChild(d);a.scrollTop=a.scrollHeight;return id}
+ var isU=type==='user',isSummary=type==='summary',bot=isU?null:findBot(botId),nm=isU?'أنت':bot?bot.name:'',em=isU?'👤':bot?bot.emoji:'',bc=isU?'#94a3b8':bot?bot.color:'#888',bg=isU?'rgba(148,163,184,.08)':bot?bot.bg:'rgba(128,128,128,.08)';
+ d.className=isSummary?'msg msg-summary':'msg';d.style.background=bg;if(!isSummary)d.style.borderRightColor=bc;
+ var spk=!isU&&bot?'<button class="msg-speak-btn" onclick="playMsg(\''+id+'\',\''+botId+'\')">🔊</button>':'';
+ var t=new Date(),ts=String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+ d.innerHTML='<div class="msg-header"><div class="msg-avatar" style="background:'+bg+';border-color:'+bc+'">'+em+'</div><span class="msg-name" style="color:'+bc+'">'+nm+'</span><span class="msg-time">'+ts+'</span>'+spk+'</div><div class="msg-text" dir="rtl">'+escH(txt)+'</div>';
+ a.appendChild(d);a.scrollTop=a.scrollHeight;
+ if(type!=='system'){var pfx=isU?'[المستخدم]':'['+nm+']';hist.push({role:isU?'user':'assistant',content:pfx+': '+txt,botId:botId||'user',text:txt,name:nm});if(hist.length>MAX_HIST)hist=hist.slice(-MAX_HIST);if(!isU&&!isSummary)msgsSinceSummary++}
+ return id
 }
-function copyMessage(id){
- const el=document.getElementById(id);const text=el?.querySelector('.msg-text')?.innerText||'';
- if(navigator.clipboard)navigator.clipboard.writeText(text);
- sysMsg('📋 تم نسخ الرسالة.');
-}
-function playMessage(id,bid){
- const el=document.getElementById(id),bot=findBot(bid);if(!el||!bot)return;
- const text=el.querySelector('.msg-text')?.innerText||'';
- speakText(text,bot,id);
-}
-
-/* =========================
-   SPEECH
-========================= */
-function getArVoice(){
- try{return speechSynthesis.getVoices().find(v=>v.lang?.toLowerCase().startsWith('ar'))||null}catch(e){return null}
-}
-function speakText(text,bot,id){
- return new Promise(resolve=>{
-  if(!globalSpk){resolve();return}
-  try{speechSynthesis.cancel()}catch(e){}
-  const u=new SpeechSynthesisUtterance(text);u.lang='ar-SA';u.pitch=bot.voice.pitch;u.rate=bot.voice.rate*speechSpd;
-  const v=getArVoice();if(v)u.voice=v;
-  u.onend=resolve;u.onerror=resolve;speechSynthesis.speak(u);
- });
-}
-function stopSpeech(){try{speechSynthesis.cancel()}catch(e){}}
-function toggleSpeaker(){
- globalSpk=!globalSpk;document.getElementById('spkIcon').textContent=globalSpk?'🔊':'🔇';document.getElementById('spkLabel').textContent=globalSpk?'الصوت':'الصوت';
- if(!globalSpk)stopSpeech();
-}
-function cycleSpeed(){
- const x=[['eco','🐢 اقتصادي'],['normal','🚗 عادي'],['turbo','🚀 سريع']];let i=x.findIndex(a=>a[0]===speedMode);i=(i+1)%x.length;speedMode=x[i][0];document.getElementById('speedBtn').textContent=x[i][1];
-}
-
-/* =========================
-   STATUS / TYPING
-========================= */
-function setStatus(type,bot){
- const dot=document.getElementById('sDot'),txt=document.getElementById('sText');dot.className='status-dot';
- if(type==='active'){dot.style.background='#22c55e';dot.classList.add('pulse');txt.textContent='🟢 النقاش جارٍ...';txt.style.color='#86efac'}
- else if(type==='paused'){dot.style.background='#eab308';txt.textContent='⏸ متوقف مؤقتاً';txt.style.color='#fde047'}
- else if(type==='typing'){dot.style.background=bot?.color||'#6366f1';dot.classList.add('pulse');txt.textContent=(bot?.emoji||'🤖')+' '+(bot?.name||'البوت')+' يفكر...';txt.style.color=bot?.color||'#fff'}
- else if(type==='summary'){dot.style.background='#fbbf24';txt.textContent='📋 يتم إعداد الملخص...';txt.style.color='#fbbf24'}
- else if(type==='waiting'){dot.style.background='#60a5fa';txt.textContent='⏳ انتظار الدور التالي...';txt.style.color='#93c5fd'}
- else {dot.style.background='#6b7280';txt.textContent='في انتظار بدء النقاش...';txt.style.color='#9ca3af'}
-}
-function showTyping(bot){
- document.getElementById('tEmoji').textContent=bot.emoji;const n=document.getElementById('tName');n.textContent=bot.name;n.style.color=bot.color;document.getElementById('typingBar').classList.add('show');scrollChat();
-}
+function playMsg(mid,bid){var e=document.getElementById(mid);if(!e)return;var p=e.querySelector('.msg-text'),b=findBot(bid);if(!p||!b)return;if(speaking&&speakMsgId===mid){stopSpk();return}speakOnce(p.textContent,b,mid)}
+function showTyping(bot){var b=document.getElementById('typingBar');document.getElementById('tEmoji').textContent=bot.emoji;document.getElementById('tName').textContent=bot.name;document.getElementById('tName').style.color=bot.color;b.classList.add('show')}
 function hideTyping(){document.getElementById('typingBar').classList.remove('show')}
-
-/* =========================
-   CONTEXT / API
-========================= */
-function dimensionsText(){return selectedDimensions.map(id=>DIMENSIONS[id].icon+' '+DIMENSIONS[id].name).join('، ')}
-function depthText(){
- return ({quick:'مختصر ومباشر.',normal:'متوازن مع أسباب وبدائل.',deep:'عميق مع افتراضات ونتائج ومقايضات.',expert:'خبير متعدد الطبقات مع تقييم نقدي.'})[depth];
+function setStatus(s,bid){var dot=document.getElementById('sDot'),txt=document.getElementById('sText'),bot=bid?findBot(bid):null,p=document.getElementById('pauseBtn'),r=document.getElementById('resumeBtn');
+ if(s==='active'){dot.style.background='#22c55e';dot.className='status-dot pulsing';txt.style.color='#86efac';txt.textContent='🟢 النقاش جارٍ...';p.disabled=false;r.disabled=true}
+ else if(s==='paused'){dot.style.background='#eab308';dot.className='status-dot';txt.style.color='#fde047';txt.textContent='⏸ متوقف';p.disabled=true;r.disabled=false}
+ else if(s==='stopped'){dot.style.background='#6b7280';dot.className='status-dot';txt.style.color='#9ca3af';txt.textContent='في انتظار بدء النقاش...';p.disabled=true;r.disabled=true}
+ else if(s==='typing'&&bot){dot.style.background=bot.color;dot.className='status-dot pulsing';txt.style.color=bot.color;txt.textContent=bot.emoji+' '+bot.name+' يفكر...'}
+ else if(s==='rateWait'){dot.style.background='#f97316';dot.className='status-dot';txt.style.color='#fdba74';txt.textContent='⏳ انتظار حد الطلبات...'}
+ else if(s==='interrupt'){dot.style.background='#94a3b8';dot.className='status-dot pulsing';txt.style.color='#cbd5e1';txt.textContent='✋ تدخل المستخدم...'}
+ else if(s==='summary'){dot.style.background='#fbbf24';dot.className='status-dot';txt.style.color='#fbbf24';txt.textContent='📋 الملخّص يجمع الأفكار...'}
+ else if(s==='waiting'){dot.style.background='#60a5fa';dot.className='status-dot pulsing';txt.style.color='#93c5fd';txt.textContent='⏳ انتظار المؤقت...'}
 }
-function systemPrompt(bot){
- return `أنت ${bot.name} في ساحة نقاش متعددة الشخصيات.
-دورك: ${bot.role}
-شخصيتك: ${bot.personality}
-مهمتك: ${bot.prompt}
 
-الموضوع: "${topic}"
-نوع النقاش: ${MODE_INFO[debateMode].label}
-عالم النقاش: ${WORLDS[world].name}
-أبعاد التفكير: ${dimensionsText()}
-عمق الإجابة: ${depthText()}
-
-قواعد:
-- العربية الفصحى البسيطة.
-- أضف قيمة جديدة ولا تكرر الكلام.
-- احترم بقية الشخصيات ويمكنك مخالفتها بأدلة.
-- لا تخترع أرقاماً أو مصادر.
-- إذا كانت المعلومة تحتاج تحققاً خارجياً فاذكر ذلك.
-- 3 إلى 7 جمل عادة.
-- اربط إجابتك بما سبق.`;
-}
-function buildMessages(bot,interrupt=''){
- const msgs=[{role:'system',content:systemPrompt(bot)}];
- msgs.push({role:'user',content:`الموضوع: ${topic}\nابدأ مساهمتك في الجلسة.`});
- history.slice(-18).forEach(x=>{
-  msgs.push(x.botId===bot.id?{role:'assistant',content:x.content}:{role:'user',content:`[${x.name}]: ${x.content}`});
- });
- msgs.push({role:'user',content:interrupt?`تدخل المستخدم: "${interrupt}"\nأجب مباشرة ثم اربطه بالنقاش.`:'قدم مساهمة جديدة في دورك ولا تكرر آخر رأي.'});
- return msgs;
+/* API: مطابق للطريقة الأصلية */
+function getBotPrompt(bot){
+ var base=bot.prompts[debateMode]||bot.prompts.debate;
+ return base+'\n\n'+dimensionsPrompt();
 }
 function callAPI(bot,msgs){
-    abortController = new AbortController();
-    var sysPrompt = systemPrompt(bot);
+ abortC=new AbortController();
+ var sysPrompt=getBotPrompt(bot);
+ var messages=[{role:'system',content:sysPrompt}];
+ for(var i=0;i<msgs.length;i++)messages.push(msgs[i]);
+ var body={model:bot.model,messages:messages,temperature:.8,max_tokens:300,top_p:.9};
+ return fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify(body),signal:abortC.signal})
+ .then(function(res){if(!res.ok)return res.json().catch(function(){return{}}).then(function(d){var em=d.error&&d.error.message?d.error.message:(d.detail||'HTTP '+res.status);throw new Error(em)});return res.json()})
+ .then(function(data){rRecord(bot.model);updateRateBars();if(data.choices&&data.choices[0]&&data.choices[0].message)return data.choices[0].message.content.trim();throw new Error('استجابة غير متوقعة من API')})
+ .catch(function(err){if(err.name==='AbortError')return null;throw err})
+}
+function buildMsgs(bot,isInterrupt,interruptMsg){
+ var mi=MODE_INFO[debateMode],ctx='نوع الجلسة: '+(mi?mi.label:'نقاش')+'\nالموضوع: "'+topic+'"\n'+dimensionsPrompt()+'\nشارك برأيك بناءً على شخصيتك ونوع الجلسة وما قيل سابقاً.';
+ if(isInterrupt&&interruptMsg)ctx+='\n\nالمستخدم يقول: "'+interruptMsg+'" — ردّ مباشرة على ما قاله.';
+ var msgs=[{role:'user',content:ctx}];
+ for(var i=0;i<hist.length;i++){var m=hist[i];if(m.botId===bot.id)msgs.push({role:'assistant',content:m.content});else msgs.push({role:'user',content:m.content})}
+ if(!hist.length)msgs.push({role:'user',content:'ابدأ بإبداء رأيك حول: "'+topic+'". تحدث بشكل طبيعي ومختصر.'});
+ return msgs
+}
+function buildSummaryMsgs(s){var mi=MODE_INFO[debateMode],ctx='نوع الجلسة: '+(mi?mi.label:'نقاش')+'\nالموضوع: "'+topic+'"\n'+dimensionsPrompt()+'\n\nما قيل:\n';for(var i=0;i<hist.length;i++)ctx+=hist[i].content+'\n';ctx+='\nلخّص الجلسة الآن حسب دورك.';return[{role:'user',content:ctx}]}
 
-    var messages = [
-        {role:'system', content:sysPrompt}
-    ];
+function triggerSummary(){var s=getSummarizer();if(!s){sysMsg('💡 فعّل "الملخّص" أولاً');return}if(hist.length<2){sysMsg('⚠️ لا يوجد ما يكفي للتلخيص');return}if(!running){doSummary(s,true);return}var was=paused;if(debateTimer)clearTimeout(debateTimer);doSummary(s,false,function(){if(!was){paused=false;setStatus('active');debateTimer=setTimeout(debateStep,getWait())}})}
+function doSummary(s,standalone,cb){setStatus('summary');showTyping(s);callAPI(s,buildSummaryMsgs(s)).then(function(resp){hideTyping();if(!resp)return;var c=cleanResp(resp),id=addMsg(c,s.id,'summary');msgsSinceSummary=0;if(globalSpk)return speakText(c,s,id).then(function(){if(cb)cb()});if(cb)cb()}).catch(function(e){hideTyping();if(e.name!=='AbortError')sysMsg('❌ خطأ في الملخّص: '+e.message);if(cb)cb()})}
 
-    for(var i=0;i<msgs.length;i++){
-        messages.push(msgs[i]);
-    }
+function getWait(){var v=parseInt(document.getElementById('timerSelect').value)||0;if(!v){if(spdMode==='eco')return 6000+Math.random()*3000;if(spdMode==='turbo')return 1500+Math.random()*1500;return 3000+Math.random()*2000}return v*1000*(1+(Math.random()-.5)*.1)}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function cleanResp(txt){return txt.replace(/^\[(المذيع|العالِم|الفيلسوف|المشكّك|الملخّص|المستشار|المحلل|المستخدم)\]:\s*/g,'')}
 
-    var body = {
-        model: bot.model,
-        messages: messages,
-        temperature: 0.8,
-        max_tokens: 300,
-        top_p: 0.9
-    };
-
-    return fetch(API_URL, {
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
-            'Authorization':'Bearer '+apiKey
-        },
-        body:JSON.stringify(body),
-        signal:abortController.signal
-    }).then(function(res){
-        if(!res.ok){
-            return res.json().catch(function(){return{}}).then(function(d){
-                var em=d.error&&d.error.message?d.error.message:(d.detail||'HTTP '+res.status);
-                throw new Error(em);
-            });
-        }
-        return res.json();
-    }).then(function(data){
-        if(data.choices && data.choices[0] && data.choices[0].message){
-            return data.choices[0].message.content.trim();
-        }
-        throw new Error('استجابة غير متوقعة من API');
-    }).catch(function(err){
-        if(err.name==='AbortError')return null;
-        throw err;
-    });
+function debateStep(){
+ if(!running||paused)return;var bots=activeBots();if(bots.length<2){sysMsg('⚠️ يجب تفعيل بوتين على الأقل!');setStatus('stopped');return}
+ var s=getSummarizer();if(s&&msgsSinceSummary>=s.summaryEvery&&hist.length){msgsSinceSummary=0;doSummary(s,false,function(){if(running&&!paused)debateTimer=setTimeout(debateStep,getWait())});return}
+ var bot=bots[turn%bots.length];if(!rCan(bot.model)){setStatus('rateWait');debateTimer=setTimeout(debateStep,5000+rDelay(bot.model));return}
+ var extra=rDelay(bot.model),go=function(){if(!running||paused)return;setStatus('typing',bot.id);showTyping(bot);callAPI(bot,buildMsgs(bot)).then(function(resp){hideTyping();if(resp===null||!running||paused)return;var c=cleanResp(resp),mid=addMsg(c,bot.id,'bot'),wait=getWait();setStatus('waiting');if(globalSpk)return speakText(c,bot,mid).then(function(){turn=(turn+1)%bots.length;setStatus('active');debateTimer=setTimeout(debateStep,wait)});turn=(turn+1)%bots.length;setStatus('active');debateTimer=setTimeout(debateStep,wait)}).catch(function(e){hideTyping();if(e.name!=='AbortError'){var em=e.message||'خطأ';if(em.indexOf('Failed to fetch')>=0)em='فشل الاتصال — تأكد من المفتاح أو اتصال الاستضافة';addMsg('❌ خطأ ('+bot.name+'): '+em,null,'system')}turn=(turn+1)%bots.length;setStatus('active');debateTimer=setTimeout(debateStep,4000)})};if(extra>0)setTimeout(go,extra);else go()
 }
 
-/* =========================
-   RATE LIMIT
-========================= */
-const rlog={};
-function rcount(model){const now=Date.now();rlog[model]=(rlog[model]||[]).filter(t=>t>now-60000);return rlog[model].length}
-function rcan(model){return rcount(model)<40}
-function rrecord(model){rlog[model]=(rlog[model]||[]);rlog[model].push(Date.now())}
-function renderRates(){
- const el=document.getElementById('rateBars');el.innerHTML='';
- activeBots().forEach(b=>{
-  const c=rcount(b.model),p=Math.min(100,Math.round(c/40*100)),clr=p>=80?'#ef4444':p>=50?'#f59e0b':'#22c55e';
-  const d=document.createElement('div');d.className='rate';d.innerHTML=`<div class="rate-label"><span style="color:${b.color}">${b.emoji} ${b.name}</span><span>${c}/40</span></div><div class="track"><div style="width:${p}%;height:100%;background:${clr}"></div></div>`;el.appendChild(d);
- });
-}
-setInterval(renderRates,3000);
-
-/* =========================
-   LOOP
-========================= */
-function chooseBot(){
- const bots=activeBots();if(!bots.length)return null;
- let c=bots.filter(b=>b.id!==lastBotId);if(!c.length)c=bots;
- const b=c[Math.floor(Math.random()*c.length)];lastBotId=b.id;return b;
-}
-function waitTime(){
- const v=parseInt(document.getElementById('timerSelect').value)||0;
- if(v)return v*1000;
- if(speedMode==='eco')return 6000+Math.random()*2500;
- if(speedMode==='turbo')return 1200+Math.random()*1000;
- return 2800+Math.random()*1800;
-}
-function maxRounds(){return parseInt(document.getElementById('roundSelect').value)||0}
-function startRound(){
- if(messagesInRound===0){round++;sysMsg(`🔄 الجولة ${round} بدأت`);}
-}
-function roundFinished(){
- const n=activeBots().length;
- if(messagesInRound>=n){
-  messagesInRound=0;
-  const max=maxRounds();
-  if(max>0&&round>=max){finishDebate();return true}
- }
- return false;
-}
-async function debateStep(){
- if(!running||paused)return;
- const bots=activeBots();
- if(bots.length<2){sysMsg('⚠️ فعّل شخصيتين على الأقل.');finishDebate();return}
- if(roundFinished())return;
- startRound();
- const sum=getSummarizer();
- if(sum&&summaryCounter>=Math.max(6,bots.length*2)){summaryCounter=0;await generateSummary();if(running&&!paused)debateTimer=setTimeout(debateStep,waitTime());return}
- const bot=chooseBot();
- if(!rcan(bot.model)){setStatus('waiting');debateTimer=setTimeout(debateStep,5000);return}
- setStatus('typing',bot);showTyping(bot);
- try{
-  const response=await callAPI(bot,buildMessages(bot));
-  if(!running||paused)return;
-  rrecord(bot.model);
-  let clean=response.replace(/^\[(.*?)\]\s*[:：-]\s*/,'').trim();
-  if(!clean)throw new Error('الرد فارغ.');
-  const id=addMessage(clean,bot.id,'bot');
-  if(globalSpk)await speakText(clean,bot,id);
-  if(!running||paused)return;
-  setStatus('waiting');debateTimer=setTimeout(debateStep,waitTime());
- }catch(e){
-  if(!running||paused)return;
-  sysMsg(`❌ ${bot.name}: ${e.message}`);debateTimer=setTimeout(debateStep,3500);
- }finally{hideTyping();renderRates()}
-}
-
-/* =========================
-   SUMMARY / DECISION
-========================= */
-async function generateSummary(){
- const bot=getSummarizer();
- if(!bot){sysMsg('💡 فعّل شخصية الملخّص أولاً.');return}
- if(history.length<2)return;
- setStatus('summary');showTyping(bot);
- const context=history.slice(-22).map(x=>`[${x.name}]: ${x.content}`).join('\n');
- try{
-  const res=await callAPI(bot,[{role:'system',content:'لخّص النقاش بالعربية: أهم الأفكار، الاتفاقات، الخلافات، الحلول، المخاطر، والاستنتاج الحالي. لا تخترع معلومات.'},{role:'user',content:`الموضوع: ${topic}\n\n${context}`}]);
-  rrecord(bot.model);addMessage(res,bot.id,'summary');
- }catch(e){sysMsg('❌ فشل الملخص: '+e.message)}finally{hideTyping();setStatus(running?'active':'stopped')}
-}
-function triggerSummary(){generateSummary()}
-async function showDecision(){
- if(history.length<3){sysMsg('⚠️ نحتاج عدة رسائل لتحليل القرار.');return}
- const bot=BOTS[0];setStatus('summary');showTyping(bot);
- const context=history.slice(-25).map(x=>`[${x.name}]: ${x.content}`).join('\n');
- try{
-  const res=await callAPI(bot,[{role:'system',content:'أنت محلل قرار. استخرج الخيارات، الإيجابيات، السلبيات، المخاطر، المعايير الحاسمة، ما ينقص من معلومات، والتوصية الحالية مع درجة ثقة. لا تخترع بيانات.'},{role:'user',content:`الموضوع: ${topic}\n${context}`}]);
-  rrecord(bot.model);addMessage('⚖️ تحليل القرار:\n'+res,bot.id,'summary');
- }catch(e){sysMsg('❌ تعذر تحليل القرار: '+e.message)}finally{hideTyping();setStatus(running?'active':'stopped')}
-}
-
-/* =========================
-   CONTROLS
-========================= */
 function startDebate(){
- topic=document.getElementById('topicInput').value.trim();
- if(!topic){document.getElementById('topicInput').focus();sysMsg('⚠️ اكتب موضوع النقاش أولاً.');return}
- if(!apiKey){openSettings();showKeyStatus('❌ أدخل مفتاح API أولاً.','#ef4444');return}
- if(activeBots().length<2){sysMsg('⚠️ فعّل شخصيتين على الأقل.');return}
- debateMode=document.getElementById('modeSelect').value;depth=document.getElementById('depthSelect').value;
- newChat(false);running=true;paused=false;round=0;messagesInRound=0;summaryCounter=0;ideasCount=0;lastBotId=null;sessionStart=Date.now();startSessionTimer();
- onModeChange(debateMode);sysMsg(`${MODE_INFO[debateMode].icon} ${MODE_INFO[debateMode].label}: "${topic}"`);
- sysMsg(`🌍 ${WORLDS[world].icon} ${WORLDS[world].name} • 🧭 ${dimensionsText()}`);
- setStatus('active');updateDashboard();debateTimer=setTimeout(debateStep,700);
+ topic=document.getElementById('topicInput').value.trim();debateMode=document.getElementById('modeSelect').value;
+ if(!apiKey){openSettings();showKeyMsg('❌ أدخل مفتاح API أولاً','#ef4444');return}
+ if(!topic){var inp=document.getElementById('topicInput');inp.style.borderColor='#ef4444';setTimeout(function(){inp.style.borderColor='rgba(255,255,255,.1)'},2000);return}
+ var bots=activeBots();if(bots.length<2){sysMsg('⚠️ فعّل بوتين على الأقل!');return}
+ newChat(false);running=true;paused=false;turn=0;msgsSinceSummary=0;
+ var mi=MODE_INFO[debateMode],names=bots.map(function(b){return b.emoji+' '+b.name}).join('، '),s=getSummarizer();if(s)names+=' + '+s.emoji+' '+s.name+' (كل '+s.summaryEvery+' رسائل)';
+ var tv=document.getElementById('timerSelect').value,tm=tv==='0'?'تلقائي':tv+' ثانية';
+ sysMsg((mi?mi.icon:'🎯')+' '+(mi?mi.label:'نقاش')+': "'+topic+'" — '+names+' ⏱ '+tm);setStatus('active');debateTimer=setTimeout(debateStep,800)
 }
-function pauseDebate(){
- if(!running)return;paused=true;if(debateTimer)clearTimeout(debateTimer);if(abortController)try{abortController.abort()}catch(e){}stopSpeech();hideTyping();setStatus('paused');sysMsg('⏸ تم الإيقاف المؤقت.');
-}
-function resumeDebate(){
- if(!running||!paused)return;paused=false;setStatus('active');sysMsg('▶ تمت المتابعة.');debateTimer=setTimeout(debateStep,500);
-}
-function finishDebate(){
- running=false;paused=false;if(debateTimer)clearTimeout(debateTimer);stopSpeech();hideTyping();setStatus('stopped');sysMsg(`🏁 انتهت الجلسة: ${round} جولات، ${messageCount} رسالة.`);updateDashboard();
-}
+function pauseDebate(){if(!running)return;paused=true;if(abortC)try{abortC.abort()}catch(e){}if(debateTimer)clearTimeout(debateTimer);stopSpk();hideTyping();setStatus('paused');sysMsg('⏸ تم إيقاف النقاش مؤقتاً')}
+function resumeDebate(){if(!running||!paused)return;paused=false;setStatus('active');sysMsg('▶ تمت متابعة النقاش');debateTimer=setTimeout(debateStep,1200)}
+function newChat(){running=false;paused=false;if(abortC)try{abortC.abort()}catch(e){}if(debateTimer)clearTimeout(debateTimer);stopSpk();hideTyping();hist=[];msgN=0;turn=0;msgsSinceSummary=0;document.getElementById('chatArea').innerHTML='<div class="txc" style="padding:40px 10px" id="welcomeMsg"><div style="font-size:42px">🎭</div><div style="font-size:15px;font-weight:700;color:#ccc">ساحة النقاش الذكي</div><div style="font-size:11px;color:#666">فعّل الشخصيات واضبط الأبعاد ثم ابدأ.</div></div>';setStatus('stopped')}
 function interrupt(){
- const input=document.getElementById('intInput'),text=input.value.trim();if(!text)return;
- if(!running){sysMsg('⚠️ ابدأ النقاش أولاً.');return}
- input.value='';if(debateTimer)clearTimeout(debateTimer);if(abortController)try{abortController.abort()}catch(e){}
- paused=true;stopSpeech();hideTyping();setStatus('paused');addMessage(text,'user','user');sysMsg('✋ تدخل المستخدم — ردود متعددة...');
- const bots=activeBots().slice(0,Math.min(3,activeBots().length));
- (async()=>{
-  for(const bot of bots){
-   try{setStatus('typing',bot);showTyping(bot);const res=await callAPI(bot,buildMessages(bot,text));rrecord(bot.model);const id=addMessage(res,bot.id,'bot');if(globalSpk)await speakText(res,bot,id)}catch(e){sysMsg(`❌ ${bot.name}: ${e.message}`)}finally{hideTyping()}
-  }
-  if(running){paused=false;setStatus('active');debateTimer=setTimeout(debateStep,1200)}
- })();
-}
-function newChat(show=true){
- running=false;paused=false;if(debateTimer)clearTimeout(debateTimer);if(abortController)try{abortController.abort()}catch(e){}stopSpeech();hideTyping();
- history=[];messageCount=0;round=0;messagesInRound=0;ideasCount=0;summaryCounter=0;lastBotId=null;
- if(sessionTimer){clearInterval(sessionTimer);sessionTimer=null}
- document.getElementById('headTime').textContent='00:00';
- document.getElementById('chatArea').innerHTML=`<div class="welcome" id="welcomeMsg"><div class="icon">🎭</div><div class="title">ساحة النقاش الذكي</div><div class="sub">اختر الشخصيات واسحب أبعاد التفكير والعالم ثم ابدأ جلسة جديدة.</div></div>`;
- setStatus('stopped');updateDashboard();if(show)sysMsg('🔄 جلسة جديدة.');
+ var inp=document.getElementById('intInput'),msg=inp.value.trim();if(!msg)return;if(!running){sysMsg('⚠️ ابدأ النقاش أولاً');return}
+ if(abortC)try{abortC.abort()}catch(e){}if(debateTimer)clearTimeout(debateTimer);stopSpk();hideTyping();paused=true;setStatus('interrupt');addMsg(msg,null,'user');inp.value='';sysMsg('✋ تدخل المستخدم — البوتات تردّ...');
+ var bots=activeBots(),idx=0;function next(){if(idx>=Math.min(bots.length,3)){paused=false;setStatus('active');debateTimer=setTimeout(debateStep,2500);return}var bot=bots[idx++];if(!rCan(bot.model)){next();return}showTyping(bot);setStatus('typing',bot.id);callAPI(bot,buildMsgs(bot,true,msg)).then(function(resp){hideTyping();if(!resp){next();return}var c=cleanResp(resp),mid=addMsg(c,bot.id,'bot');if(globalSpk)return speakText(c,bot,mid).then(function(){return sleep(600)}).then(next);return sleep(600).then(next)}).catch(function(e){hideTyping();if(e.name!=='AbortError')addMsg('❌ '+bot.name+': '+e.message,null,'system');next()})}next()
 }
 
-/* =========================
-   DASHBOARD
-========================= */
-function updateStats(){
- const n=activeBots().length;
- document.getElementById('metricBots').textContent=n;
-}
-function updateDashboard(){
- document.getElementById('metricMsgs').textContent=messageCount;
- document.getElementById('metricRounds').textContent=round;
- document.getElementById('metricIdeas').textContent=ideasCount;
- document.getElementById('metricBots').textContent=activeBots().length;
- const score=messageCount?Math.min(99,40+Math.min(25,ideasCount*3)+Math.min(15,round*3)+Math.min(12,activeBots().length*2)+Math.min(8,selectedDimensions.length)):0;
- document.getElementById('metricScore').textContent=score+'%';
- const max=maxRounds();document.getElementById('progressFill').style.width=max?Math.min(100,round/max*100)+'%':(messageCount?35:0)+'%';
- const vals={
-  Ideas:Math.min(100,ideasCount*8+messageCount*2),
-  Evidence:Math.min(100,messageCount*4+(selectedDimensions.includes('science')?20:0)),
-  Diversity:Math.min(100,activeBots().length*8+selectedDimensions.length*5),
-  Solutions:Math.min(100,ideasCount*8+(debateMode==='problem'||debateMode==='plan'?30:10)),
-  Risks:Math.min(100,selectedDimensions.includes('ethical')?40:15)
- };
- Object.entries(vals).forEach(([k,v])=>{document.getElementById('r'+k).textContent=v;document.getElementById('rf'+k).style.width=v+'%'});
-}
-function startSessionTimer(){
- if(sessionTimer)clearInterval(sessionTimer);
- sessionTimer=setInterval(()=>{if(!sessionStart)return;const s=Math.floor((Date.now()-sessionStart)/1000);document.getElementById('headTime').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000);
-}
-
-/* =========================
-   SETTINGS
-========================= */
-function openSettings(){
- document.getElementById('settingsModal').classList.add('open');
- document.getElementById('apiKeyInput').value=apiKey;
-}
+function toggleSpeaker(){globalSpk=!globalSpk;var i=document.getElementById('spkIcon'),l=document.getElementById('spkLabel'),b=document.getElementById('spkBtn');if(globalSpk){i.textContent='🔊';l.textContent='الصوت مفعّل';l.style.color='#86efac';b.style.borderColor='rgba(34,197,94,.4)'}else{i.textContent='🔇';l.textContent='الصوت';l.style.color='#9ca3af';b.style.borderColor='rgba(255,255,255,.08)';stopSpk()}}
+function cycleSpeed(){var m=['eco','normal','turbo'],lab=['🐢 اقتصادي','🚗 عادي','🚀 سريع'],i=m.indexOf(spdMode);i=(i+1)%3;spdMode=m[i];document.getElementById('speedBtn').textContent=lab[i]}
+function openSettings(){document.getElementById('settingsModal').classList.add('open');document.getElementById('apiKeyInput').value=apiKey||''}
 function closeSettings(){document.getElementById('settingsModal').classList.remove('open')}
-function showKeyStatus(t,c){
- var e=document.getElementById('keyStatus');
- e.textContent=t;e.style.color=c;
-}
-function saveSettings(){
- var k=document.getElementById('apiKeyInput').value.trim();
- if(!k){showKeyStatus('❌ أدخل المفتاح','#ef4444');return}
- apiKey=k;
- try{localStorage.setItem('api_key',k)}catch(e){}
- showKeyStatus('✅ تم الحفظ!','#22c55e');
-}
-async function testAPI(){
- var oldKey=apiKey;
- var k=document.getElementById('apiKeyInput').value.trim();
- if(!k){showKeyStatus('❌ أدخل المفتاح أولاً','#ef4444');return}
- apiKey=k;
- showKeyStatus('⏳ جار الاختبار...','#fbbf24');
- try{
-  var testBot=findBot('anchor')||BOTS[0];
-  var res=await callAPI(testBot,[{role:'user',content:'اختبار اتصال. أجب بكلمة: متصل'}]);
-  if(res)showKeyStatus('✅ الاتصال ناجح.','#22c55e');
-  else showKeyStatus('❌ لم تصل استجابة.','#ef4444');
- }catch(e){
-  apiKey=oldKey;
-  showKeyStatus('❌ '+(e.message||'فشل الاتصال'),'#ef4444');
- }
-}
-function clearStoredSettings(){
- try{localStorage.removeItem('api_key')}catch(e){}
- apiKey='';
- document.getElementById('apiKeyInput').value='';
- showKeyStatus('🗑 تم حذف المفتاح.','#fb7185');
-}
-/* =========================
-   EXPORT
-========================= */
-function exportChat(format){
- if(!history.length){sysMsg('📭 لا توجد محادثة للتصدير.');return}
- let content,type,ext;
- const meta=`الموضوع: ${topic}\nالنوع: ${MODE_INFO[debateMode].label}\nالعالم: ${WORLDS[world].name}\nالأبعاد: ${dimensionsText()}\nالجولات: ${round}\n\n`;
- if(format==='json'){content=JSON.stringify({topic,mode:debateMode,world,dimensions:selectedDimensions,round,messages:history},null,2);type='application/json';ext='json'}
- else if(format==='md'){content='# ساحة النقاش الذكي PRO\n\n'+meta+'---\n\n'+history.map(x=>`### ${x.name}\n\n${x.content}`).join('\n\n');type='text/markdown';ext='md'}
- else{content='ساحة النقاش الذكي PRO\n\n'+meta+'====================\n\n'+history.map(x=>`[${x.name}]\n${x.content}`).join('\n\n');type='text/plain';ext='txt'}
- const blob=new Blob([content],{type:type+';charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='debate_'+Date.now()+'.'+ext;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
+function saveKey(){var k=document.getElementById('apiKeyInput').value.trim();if(!k){showKeyMsg('❌ أدخل المفتاح','#ef4444');return}apiKey=k;try{localStorage.setItem('api_key',k)}catch(e){}showKeyMsg('✅ تم الحفظ!','#22c55e')}
+function showKeyMsg(m,c){var e=document.getElementById('keyStatus');e.textContent=m;e.style.color=c;setTimeout(function(){e.textContent=''},3000)}
+function exportChat(){if(!hist.length){sysMsg('📭 لا توجد محادثة للتصدير');return}var mi=MODE_INFO[debateMode],txt='ساحة النقاش الذكي\nالنوع: '+(mi?mi.label:debateMode)+'\nالموضوع: '+topic+'\n'+dimensionsPrompt()+'\n════════════════════\n\n';hist.forEach(function(m){txt+=m.content+'\n\n'});try{var blob=new Blob([txt],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='debate_'+debateMode+'.txt';a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}catch(e){sysMsg('❌ لا يمكن التصدير')}}
+function updateRateBars(){var el=document.getElementById('rateBars');if(!el)return;var bots=activeBots(),html='';bots.forEach(function(b){var c=rCount(b.model),p=Math.min(100,Math.round(c/40*100)),clr=p>=80?'#ef4444':p>=50?'#eab308':'#22c55e';html+='<div class="rate-item"><div class="rate-label"><span style="color:'+b.color+'">'+b.emoji+' '+b.name+'</span><span style="color:#666">'+c+'/40</span></div><div class="rate-track"><div class="rate-fill" style="width:'+p+'%;background:'+clr+'"></div></div></div>'});el.innerHTML=html}
+setInterval(updateRateBars,3000);
 
-/* =========================
-   INIT
-========================= */
-document.getElementById('worldSelect')?.addEventListener('change',e=>{world=e.target.value;updateWorldBadge();renderWorlds()});
-document.getElementById('settingsModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSettings()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettings();if(e.ctrlKey&&e.key==='Enter'&&!running)startDebate()});
-window.addEventListener('online',()=>sysMsg('🟢 عاد اتصال الإنترنت.'));
-window.addEventListener('offline',()=>sysMsg('⚠️ انقطع اتصال الإنترنت.'));
-try{speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices()}catch(e){}
-
-renderBots();
-renderDimensions();
-renderWorlds();
-onModeChange('debate');
-updateWorldBadge();
-updateDashboard();
-renderRates();
+try{var saved=localStorage.getItem('api_key');if(saved){apiKey=saved;document.getElementById('apiKeyInput').value=saved}}catch(e){}
+renderBots();renderDimensions();renderLenses();updateRateBars();
 </script>
 </body>
 </html>
