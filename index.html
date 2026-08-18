@@ -181,7 +181,7 @@ button{touch-action:manipulation}
   <div class="settings-tabs"><button class="btn chip active">🔑 الاتصال</button><button class="btn chip" onclick="document.getElementById('advancedSettings').classList.toggle('hidden')">🧪 متقدم</button></div>
   <div class="field">
     <label>🔑 مفتاح API — نفس طريقة النسخة الأصلية</label>
-    <div class="fx g2"><input type="password" id="apiKeyInput" placeholder="sk-..." dir="ltr" class="inp"><button onclick="saveKey()" class="btn btn-main">حفظ</button></div>
+    <div class="fx g2"><input type="password" id="apiKeyInput" placeholder="أدخل المفتاح كما هو — بدون أي تعديل" dir="ltr" class="inp"><button onclick="saveKey()" class="btn btn-main">حفظ</button></div>
     <p id="keyStatus" class="save-note"></p>
     <p class="save-note">يُحفظ محلياً في <b>localStorage</b> بالمفتاح <b>api_key</b> كما في الكود الأصلي.</p>
   </div>
@@ -402,7 +402,11 @@ function debateStep(){
 
 function startDebate(){
  topic=document.getElementById('topicInput').value.trim();debateMode=document.getElementById('modeSelect').value;
- if(!apiKey){openSettings();showKeyMsg('❌ أدخل مفتاح API أولاً','#ef4444');return}
+ if(typeof apiKey !== 'string' || apiKey.trim() === ''){
+        openSettings();
+        showKeyMsg('❌ أدخل المفتاح كما هو — لا يشترط أي بادئة','#ef4444');
+        return
+    }
  if(!topic){var inp=document.getElementById('topicInput');inp.style.borderColor='#ef4444';setTimeout(function(){inp.style.borderColor='rgba(255,255,255,.1)'},2000);return}
  var bots=activeBots();if(bots.length<2){sysMsg('⚠️ فعّل بوتين على الأقل!');return}
  newChat(false);running=true;paused=false;turn=0;msgsSinceSummary=0;
@@ -423,6 +427,65 @@ function toggleSpeaker(){globalSpk=!globalSpk;var i=document.getElementById('spk
 function cycleSpeed(){var m=['eco','normal','turbo'],lab=['🐢 اقتصادي','🚗 عادي','🚀 سريع'],i=m.indexOf(spdMode);i=(i+1)%3;spdMode=m[i];document.getElementById('speedBtn').textContent=lab[i]}
 function openSettings(){document.getElementById('settingsModal').classList.add('open');document.getElementById('apiKeyInput').value=apiKey||''}
 function closeSettings(){document.getElementById('settingsModal').classList.remove('open')}
+function testAPIKey(){
+    var k = document.getElementById('apiKeyInput').value.trim();
+    if(!k){
+        showKeyMsg('❌ أدخل المفتاح أولاً','#ef4444');
+        return;
+    }
+
+    apiKey = k;
+    try{localStorage.setItem('api_key',k)}catch(e){}
+
+    var btn = document.getElementById('testKeyBtn');
+    if(btn){btn.disabled=true;btn.textContent='⏳ اختبار...';}
+
+    var mode = 'bearer';
+    try{
+        var sel=document.getElementById('authMode');
+        if(sel && sel.value) mode=sel.value;
+    }catch(e){}
+
+    var headers={'Content-Type':'application/json'};
+    if(mode==='bearer') headers['Authorization']='Bearer '+apiKey;
+    else if(mode==='x-api-key') headers['X-API-Key']=apiKey;
+    else headers['Authorization']=apiKey;
+
+    fetch(API_URL,{
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify({
+            model:'claude-opus-4-6',
+            messages:[
+                {role:'user',content:'أجب بكلمة واحدة فقط: نعم'}
+            ],
+            temperature:0,
+            max_tokens:10
+        })
+    }).then(function(res){
+        return res.text().then(function(text){
+            var data={};
+            try{data=JSON.parse(text)}catch(e){}
+            if(!res.ok){
+                var msg=(data.error&&data.error.message)||data.detail||text||('HTTP '+res.status);
+                throw new Error(msg);
+            }
+            if(!data.choices || !data.choices[0] || !data.choices[0].message){
+                throw new Error('الخادم استجاب لكن بصيغة غير متوقعة');
+            }
+            showKeyMsg('✅ المفتاح مقبول والاتصال يعمل','#22c55e');
+        });
+    }).catch(function(err){
+        var msg=err.message||'فشل الاختبار';
+        if(msg.indexOf('Failed to fetch')>=0){
+            msg='فشل الاتصال بالخادم (قد يكون CORS أو الاستضافة أو الرابط)';
+        }
+        showKeyMsg('❌ '+msg,'#ef4444');
+    }).finally(function(){
+        if(btn){btn.disabled=false;btn.textContent='🧪 اختبار';}
+    });
+}
+
 function saveKey(){var k=document.getElementById('apiKeyInput').value.trim();if(!k){showKeyMsg('❌ أدخل المفتاح','#ef4444');return}apiKey=k;try{localStorage.setItem('api_key',k)}catch(e){}showKeyMsg('✅ تم الحفظ!','#22c55e')}
 function showKeyMsg(m,c){var e=document.getElementById('keyStatus');e.textContent=m;e.style.color=c;setTimeout(function(){e.textContent=''},3000)}
 function exportChat(){if(!hist.length){sysMsg('📭 لا توجد محادثة للتصدير');return}var mi=MODE_INFO[debateMode],txt='ساحة النقاش الذكي\nالنوع: '+(mi?mi.label:debateMode)+'\nالموضوع: '+topic+'\n'+dimensionsPrompt()+'\n════════════════════\n\n';hist.forEach(function(m){txt+=m.content+'\n\n'});try{var blob=new Blob([txt],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='debate_'+debateMode+'.txt';a.click();setTimeout(function(){URL.revokeObjectURL(url)},1000)}catch(e){sysMsg('❌ لا يمكن التصدير')}}
